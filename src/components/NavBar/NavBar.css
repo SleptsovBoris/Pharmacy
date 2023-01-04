@@ -1,0 +1,23 @@
+.nav__bar{
+    display: inherit;
+    flex-direction: row;
+    flex:1;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+  }
+  .nav{
+    margin:0 15px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color:brown; 
+  }
+  a{
+    color:inherit;
+    cursor:inherit;
+    text-decoration: none;
+  }
+  .nav:hover{
+    cursor: pointer;
+    color:black;
+  }
