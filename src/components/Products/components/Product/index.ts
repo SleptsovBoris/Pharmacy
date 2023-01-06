@@ -1,2 +1,2 @@
-export {default} from "./Product";
-export type {IProduct} from "./Product";
+export { default } from './Product';
+export type { IProduct } from './Product';

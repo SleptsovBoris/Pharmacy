@@ -1,35 +1,27 @@
-import "./NavBar.css";
+import './NavBar.css';
 import { HashLink } from 'react-router-hash-link';
 
-interface INavBarItem{
+interface INavBarItem {
     title: string;
     link: string;
 }
 
-interface IProps{
+interface IProps {
     items: INavBarItem[];
 }
 
-const NavBar: React.FC<IProps> = (props) => {
-    return(
+const NavBar: React.FC<IProps> = (props: IProps) => {
+    return (
         <div className="nav__bar">
-            {
-                props.items.map((item) => 
-                    <div 
-                        key={item.title} 
-                        className="nav"
-                    >
-                        <HashLink 
-                        to={item.link}
-                        smooth
-                        >
-                            {item.title}
-                        </HashLink>
-                    </div>
-                )
-            }
+            {props.items.map((item) => (
+                <div key={item.title} className="nav">
+                    <HashLink to={item.link} smooth>
+                        {item.title}
+                    </HashLink>
+                </div>
+            ))}
         </div>
     );
-}
+};
 
 export default NavBar;
