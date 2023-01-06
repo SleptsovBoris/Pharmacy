@@ -4,6 +4,8 @@
     padding: 15px;
     background-color: bisque;
     border-radius: 10px;
+    box-sizing: content-box;
+    text-align: center;
 }
 .product__image {
     width: 100%;
@@ -23,11 +25,11 @@
 .product__price {
     font-size: 1rem;
     font-weight: 500;
+    margin-bottom: 10px;
 }
 .product__description {
-    text-align: justify;
+    text-align: inherit;
 }
 .product:hover {
     box-shadow: 0 5px 10px 1px lightsalmon;
-    cursor: pointer;
 }
