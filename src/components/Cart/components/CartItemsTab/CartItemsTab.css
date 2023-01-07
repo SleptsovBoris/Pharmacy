@@ -1,0 +1,5 @@
+.add__order__button__wrapper {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}

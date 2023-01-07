@@ -1,23 +1,16 @@
 import React, { useState } from 'react';
-import { ShoppingCartOutlined } from '@ant-design/icons';
-import { Space } from 'antd';
 import logo from './assets/pharmacy_logo.png';
 import './App.css';
 import NavBar from './components/NavBar';
 import Products from './components/Products/Products';
-import Button from 'antd/es/button';
-import Badge from 'antd/es/badge';
 import { IProduct } from './components/Products/components/Product';
-import Modal from 'antd/es/modal/Modal';
-import List from 'antd/es/list';
+import Cart from './components/Cart/Cart';
 
 const loremIpsum =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 const App: React.FC = () => {
     const [cartItems, setCartItems] = useState<IProduct[]>([]);
-
-    const [isCartOpenModal, setIsCartModalOpen] = useState(false);
 
     const handleAddItemToCart = (product: IProduct) => {
         if (cartItems.find((cartItem) => cartItem.id == product.id)) return;
@@ -30,12 +23,8 @@ const App: React.FC = () => {
         ]);
     };
 
-    const handleOpenCart = () => {
-        setIsCartModalOpen(true);
-    };
-
-    const handleCloseCart = () => {
-        setIsCartModalOpen(false);
+    const handleClearCart = () => {
+        setCartItems([]);
     };
 
     return (
@@ -62,24 +51,11 @@ const App: React.FC = () => {
                     ]}
                 />
                 <div className="cart__wrapper">
-                    <Space>
-                        <Badge count={cartItems.length}>
-                            <Button
-                                size="large"
-                                type="text"
-                                shape="circle"
-                                icon={
-                                    <ShoppingCartOutlined
-                                        style={{
-                                            fontSize: '28px',
-                                            color: 'brown',
-                                        }}
-                                    />
-                                }
-                                onClick={handleOpenCart}
-                            />
-                        </Badge>
-                    </Space>
+                    <Cart
+                        cartItems={cartItems}
+                        handleRemoveItemFromCart={handleRemoveItemFromCart}
+                        handleClearCart={handleClearCart}
+                    />
                 </div>
             </div>
 
@@ -107,35 +83,6 @@ const App: React.FC = () => {
                     © Все права защищены. ООО &quot; Аптека Бориса &quot;
                 </div>
             </div>
-            <Modal
-                open={isCartOpenModal}
-                footer={null}
-                onCancel={handleCloseCart}
-                style={{ top: '11vh', right: '1px' }}
-            >
-                <List
-                    itemLayout="horizontal"
-                    dataSource={cartItems}
-                    renderItem={(item) => (
-                        <List.Item
-                            actions={[
-                                <Button
-                                    key={'remove button from cart'}
-                                    type="default"
-                                    danger
-                                    onClick={() =>
-                                        handleRemoveItemFromCart(item)
-                                    }
-                                >
-                                    Удалить
-                                </Button>,
-                            ]}
-                        >
-                            {item.title}
-                        </List.Item>
-                    )}
-                ></List>
-            </Modal>
         </>
     );
 };
