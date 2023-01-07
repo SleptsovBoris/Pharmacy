@@ -44,11 +44,11 @@
     padding: 0 5vw;
 }
 .about__area {
-    padding: 20vh 30vw;
+    padding: 10vh 30vw;
     background: url(./assets/background.png) no-repeat center;
 }
 .products__area {
-    padding: 20vh 0;
+    padding: 10vh 0;
 }
 .title {
     text-align: center;
