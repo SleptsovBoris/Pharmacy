@@ -48,7 +48,10 @@ const CartItemsTab: React.FC<IProps> = (props: IProps) => {
           </List.Item>
         )}
       />
-      <div className="add__order__button__wrapper">
+      <div className="add__order__wrapper">
+        <div className="total__price">
+          {props.cartItems.length === 0 ? '' : `${totalPrice} ₽`}
+        </div>
         <Button
           disabled={props.cartItems.length === 0}
           size={'large'}

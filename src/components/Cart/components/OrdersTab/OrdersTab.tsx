@@ -24,7 +24,7 @@ const OrdersTab: React.FC<IProps> = (props: IProps) => {
             </Button>,
           ]}
         >
-          {`${item.date} - ${item.products.length}`}
+          {`${item.date} - ${item.totalPrice} ₽`}
         </List.Item>
       )}
     />

@@ -1,5 +1,9 @@
-.add__order__button__wrapper {
+.add__order__wrapper {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
+  align-items: center;
+}
+.total__price {
+  font-size: 1.2rem;
 }
