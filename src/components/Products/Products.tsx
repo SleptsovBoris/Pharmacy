@@ -9,6 +9,8 @@ import Vitaminc from '../../assets/vitaminc.jpg';
 
 interface IProps {
   handleAddItemToCart: (product: IProduct) => void;
+  cartItems: IProduct[];
+  handleOpenCart: () => void;
 }
 
 const Products: React.FC<IProps> = (props: IProps) => {
@@ -59,11 +61,13 @@ const Products: React.FC<IProps> = (props: IProps) => {
 
   return (
     <div className="products">
-      {products.map((item) => (
+      {products.map(item => (
         <Product
           key={item.id}
           item={item}
           handleAddItemToCart={props.handleAddItemToCart}
+          cartItems={props.cartItems}
+          handleOpenCart={props.handleOpenCart}
         />
       ))}
     </div>

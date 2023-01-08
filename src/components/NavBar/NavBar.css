@@ -20,4 +20,5 @@ a {
 .nav:hover {
   cursor: pointer;
   color: black;
+  scale: 1.001;
 }
