@@ -3,10 +3,10 @@ import logo from 'assets/pharmacy_logo.png';
 import 'App.css';
 import NavBar from 'components/NavBar';
 import Products from 'components/Products/Products';
-import { IProduct } from 'components/Products/components/Product';
 import Cart from 'components/Cart/Cart';
 import cookiesNames from 'constants/cookiesNames';
 import cookies from 'utils/cookies';
+import { IProduct } from 'api/baseApi/models/Product';
 
 const loremIpsum =
   'Добро пожаловать в аптеку Бориса. Здесь вы можете найти необходимые вам лекарства по самой высокой цене. Мы на рынке уже 1 год. Приобретаете лекарства и будьте здоровы! Наш адрес улица Маяковская. n reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
@@ -56,6 +56,7 @@ const App: React.FC = () => {
 
   const handleClearCart = () => {
     setCartItems([]);
+    handleCartItemsChange([]);
   };
 
   const handleOpenCart = () => {
