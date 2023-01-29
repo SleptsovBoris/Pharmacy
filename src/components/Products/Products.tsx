@@ -1,11 +1,11 @@
 import Product, { IProduct } from './components/Product';
 import './Products.css';
-import Miramistin from '../../assets/miramistin.jpg';
-import Nasivin from '../../assets/nasivin.jpg';
-import Nospa from '../../assets/nospa.jpg';
-import Paracetamol from '../../assets/paracetamol.jpg';
-import Strepsils from '../../assets/strepsils.jpg';
-import Vitaminc from '../../assets/vitaminc.jpg';
+import Miramistin from 'assets/miramistin.jpg';
+import Nasivin from 'assets/nasivin.jpg';
+import Nospa from 'assets/nospa.jpg';
+import Paracetamol from 'assets/paracetamol.jpg';
+import Strepsils from 'assets/strepsils.jpg';
+import Vitaminc from 'assets/vitaminc.jpg';
 
 interface IProps {
   handleAddItemToCart: (product: IProduct) => void;

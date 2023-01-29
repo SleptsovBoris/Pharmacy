@@ -1,14 +1,7 @@
 import './Product.css';
 import { Button, Space, Divider, Modal, Tooltip } from 'antd';
 import { useState } from 'react';
-
-export interface IProduct {
-  id: number;
-  image: string;
-  title: string;
-  price: number;
-  description: string;
-}
+import { IProduct } from 'api/baseApi/models/Product';
 
 interface IProps {
   item: IProduct;
