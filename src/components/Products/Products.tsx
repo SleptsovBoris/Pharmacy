@@ -20,42 +20,42 @@ const Products: React.FC<IProps> = (props: IProps) => {
       image: Miramistin,
       title: 'Мирамистин',
       price: 200,
-      description: 'Описание',
+      description: 'Раствор для местного применения',
     },
     {
       id: 2,
       image: Vitaminc,
       title: 'Витамин С',
       price: 180,
-      description: 'Описание',
+      description: 'Водорастворимый витамин',
     },
     {
       id: 3,
       image: Strepsils,
       title: 'Стрепсилс',
       price: 350,
-      description: 'Описание',
+      description: 'Таблетки для рассасывания',
     },
     {
       id: 4,
       image: Nospa,
       title: 'Но-шпа',
       price: 500,
-      description: 'Описание',
+      description: 'Спазмолитическое средство',
     },
     {
       id: 5,
       image: Paracetamol,
       title: 'Парацетамол',
       price: 300,
-      description: 'Описание',
+      description: 'Жаропонижающее средство',
     },
     {
       id: 6,
       image: Nasivin,
       title: 'Називин',
       price: 200,
-      description: 'Описание',
+      description: 'Капли назальные',
     },
   ];
 
@@ -73,4 +73,5 @@ const Products: React.FC<IProps> = (props: IProps) => {
     </div>
   );
 };
+
 export default Products;

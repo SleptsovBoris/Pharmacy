@@ -8,8 +8,8 @@ import Cart from './components/Cart/Cart';
 import cookiesNames from './constants/cookiesNames';
 import cookies from './utils/cookies';
 
-const loremIpsum =
-  'Добро пожаловать в аптеку Бориса. Здесь вы можете найти необходимые вам лекарства по самой высокой цене. Мы на рынке уже 1 год. Приобретаете лекарства и будьте здоровы! Наш адрес улица Маяковская. n reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+const aboutText =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 export type CartItem = IProduct & {
   count: number;
@@ -110,7 +110,7 @@ const App: React.FC = () => {
       <div className="body">
         <div className="about__area" id="about__area">
           <div className="title">О нас</div>
-          <div className="content">{loremIpsum}</div>
+          <div className="content">{aboutText}</div>
         </div>
         <div className="products__area" id="products__area">
           <div className="title">Наши лекарства</div>
@@ -131,7 +131,7 @@ const App: React.FC = () => {
           <div className="contact">+7 932 923 19-34</div>
         </div>
         <div className="rights">
-          © Все права защищены. ООО &quot; Аптека Бориса &quot;
+          © Все права защищены. ООО &quot;Аптека Бориса&quot;
         </div>
       </div>
     </>

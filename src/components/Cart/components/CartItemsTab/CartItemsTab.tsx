@@ -95,4 +95,5 @@ const CartItemsTab: React.FC<IProps> = (props: IProps) => {
     </>
   );
 };
+
 export default CartItemsTab;

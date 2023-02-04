@@ -37,9 +37,9 @@ const Product: React.FC<IProps> = (props: IProps) => {
         <div className="product__title">{props.item.title}</div>
         <Divider style={{ margin: '10px 0' }} />
         <div className="product__price">{props.item.price} ₽</div>
-        {/* <div className="product__description">
-                Описание: {props.item.description}
-            </div> */}
+        <div className="product__description">
+          Описание: {props.item.description}
+        </div>
         <div className="product__actions__button__wrapper">
           <Space.Compact block size="large">
             {props.cartItems.find(cartItem => cartItem.id === props.item.id) ? (
@@ -85,4 +85,5 @@ const Product: React.FC<IProps> = (props: IProps) => {
     </>
   );
 };
+
 export default Product;

@@ -11,7 +11,7 @@ const OrdersTab: React.FC<IProps> = (props: IProps) => {
     <List
       itemLayout="horizontal"
       dataSource={props.orders}
-      renderItem={(item) => (
+      renderItem={item => (
         <List.Item
           actions={[
             <Button
@@ -30,4 +30,5 @@ const OrdersTab: React.FC<IProps> = (props: IProps) => {
     />
   );
 };
+
 export default OrdersTab;
