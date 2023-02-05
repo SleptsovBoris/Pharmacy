@@ -49,4 +49,5 @@ const Products: React.FC<IProps> = (props: IProps) => {
     </div>
   );
 };
+
 export default Products;
