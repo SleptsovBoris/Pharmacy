@@ -1,7 +1,7 @@
 import { DeleteOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, InputNumber, List, Space } from 'antd';
-import { CartItem } from '../../../../App';
-import { IProduct } from '../../../Products/components/Product';
+import { Button, Divider, InputNumber, List, Space } from 'antd';
+import { IProduct } from 'api/baseApi/models/Product';
+import { CartItem } from 'App';
 import { IOrder } from '../../Cart';
 import './CartItemsTab.css';
 
@@ -80,6 +80,7 @@ const CartItemsTab: React.FC<IProps> = (props: IProps) => {
           </div>
         )}
       />
+      <Divider />
       <div className="add__order__wrapper">
         <div className="total__price">
           {props.cartItems.length === 0 ? '' : `${totalPrice} ₽`}

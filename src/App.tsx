@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import logo from './assets/pharmacy_logo.png';
-import './App.css';
-import NavBar from './components/NavBar';
-import Products from './components/Products/Products';
-import { IProduct } from './components/Products/components/Product';
-import Cart from './components/Cart/Cart';
-import cookiesNames from './constants/cookiesNames';
-import cookies from './utils/cookies';
+import logo from 'assets/pharmacy_logo.png';
+import 'App.css';
+import NavBar from 'components/NavBar';
+import Products from 'components/Products/Products';
+import Cart from 'components/Cart/Cart';
+import cookiesNames from 'constants/cookiesNames';
+import cookies from 'utils/cookies';
+import { IProduct } from 'api/baseApi/models/Product';
 
 const aboutText =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
@@ -56,6 +56,7 @@ const App: React.FC = () => {
 
   const handleClearCart = () => {
     setCartItems([]);
+    handleCartItemsChange([]);
   };
 
   const handleOpenCart = () => {
