@@ -1,0 +1,12 @@
+.products {
+  display: flex;
+  flex-flow: row wrap;
+  align-content: space-between;
+  justify-content: space-around;
+}
+.loading-wrapper {
+  min-height: 50px;
+  display: flex;
+  align-content: space-between;
+  justify-content: space-around;
+}
