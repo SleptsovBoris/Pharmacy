@@ -1,6 +1,6 @@
 .loading__product {
-  margin: 0 50px 50px 50px;
-  width: 250px;
+  margin: 0 32px 50px 32px;
+  width: calc(100% / 4 - 96px);
   padding: 15px;
   background-color: bisque;
   border-radius: 10px;
@@ -8,4 +8,10 @@
   text-align: center;
   display: flex;
   flex-direction: column;
+}
+.custom-skeleton-button-style {
+  width: 100% !important;
+}
+.ant-space-item {
+  width: 45%;
 }

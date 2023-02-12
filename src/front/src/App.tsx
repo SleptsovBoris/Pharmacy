@@ -7,9 +7,10 @@ import Cart from 'components/Cart/Cart';
 import cookiesNames from 'constants/cookiesNames';
 import cookies from 'utils/cookies';
 import { IProduct } from 'api/baseApi/models/Product';
+import { YMaps, Map, Placemark } from 'react-yandex-maps';
 
 const aboutText =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+  'Цены на многие лекарства и товары для красоты и здоровья на сайте Аптека Бориса ниже, чем в среднем в аптеках. Мы сотрудничаем напрямую с производителями, поэтому заказанные на сайте Аптека Бориса товары поступают в аптеку напрямую с нашего склада без посредников или перекупщиков.';
 
 export type CartItem = IProduct & {
   count: number;
@@ -125,11 +126,47 @@ const App: React.FC = () => {
 
       {/* footer */}
       <div className="footer">
-        <div className="contacts" id="contacts">
-          Контакты:
-          <div className="contact">+7 939 947 64-32</div>
-          <div className="contact">+7 988 299 62-34</div>
-          <div className="contact">+7 932 923 19-34</div>
+        <div className="footer__body">
+          <div className="contacts" id="contacts">
+            <div className="footer__title">Контакты:</div>
+            <div className="contact">Центр поддержки +7 939 947 64-32</div>
+            <div className="contact">Главный офис +7 988 299 62-34</div>
+            <div className="contact">Консультация +7 932 923 19-34</div>
+          </div>
+          <div className="yandex-maps__wrapper">
+            <div className="footer__title">Мы на карте</div>
+            <YMaps>
+              <Map
+                className="yandex-map"
+                options={{
+                  autoFitToViewport: 'always',
+                  yandexMapDisablePoiInteractivity: true,
+                }}
+                defaultState={{ center: [55.779474, 49.128126], zoom: 16 }}
+              >
+                <Placemark
+                  geometry={[55.779474, 49.128126]}
+                  properties={{
+                    iconCaption: 'Мы ждем вас здесь!',
+                  }}
+                />
+              </Map>
+            </YMaps>
+          </div>
+          <div className="social__networks__wrapper">
+            <span className="footer__title">Мы в соц-сетях:</span>
+            <div className="social__links">
+              {/* <a href="https://vk.com/al_im.php?peers=c1_c4_140522778">
+                <img className="" src="" alt="" />
+              </a>
+              <a href="https://web.whatsapp.com/">
+                <img className="" src="" alt="" />
+              </a>
+              <a href="https://web.telegram.org/?legacy=1#/login">
+                <img className="" src="" alt="" />
+              </a> */}
+            </div>
+          </div>
         </div>
         <div className="rights">
           © Все права защищены. ООО &quot;Аптека Бориса&quot;

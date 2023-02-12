@@ -1,6 +1,6 @@
 .product {
-  margin: 0 50px 50px 50px;
-  width: 250px;
+  margin: 0 32px 50px 32px;
+  width: calc(100% / 4 - 96px);
   padding: 15px;
   background-color: bisque;
   border-radius: 10px;
@@ -15,9 +15,9 @@
   object-fit: scale-down;
 }
 .product__image__wrapper {
-  height: 250px;
-  width: 250px;
+  width: 100%;
   margin-bottom: 15px;
+  aspect-ratio: 1/1;
 }
 .product__title {
   font-size: 1.2rem;

@@ -1,12 +1,14 @@
 .products {
   display: flex;
-  flex-flow: row wrap;
+  flex-wrap: wrap;
   align-content: space-between;
-  justify-content: space-around;
+  margin: 0 -32px;
+  justify-content: left;
 }
 .loading-wrapper {
   min-height: 50px;
   display: flex;
   align-content: space-between;
-  justify-content: space-around;
+  margin: 0 -32px;
+  justify-content: left;
 }

@@ -31,6 +31,7 @@ const Products: React.FC<IProps> = (props: IProps) => {
         <LoadingProduct />
         <LoadingProduct />
         <LoadingProduct />
+        <LoadingProduct />
       </div>
     );
   }
