@@ -8,6 +8,10 @@ import cookiesNames from 'constants/cookiesNames';
 import cookies from 'utils/cookies';
 import { IProduct } from 'api/baseApi/models/Product';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
+import SocialNetworks from 'components/Social_networks/SocialNetworks';
+import vkIcon from 'assets/vk.svg';
+import whatsappIcon from 'assets/whatsapp.svg';
+import telegramIcon from 'assets/telegram.svg';
 
 const aboutText =
   'Цены на многие лекарства и товары для красоты и здоровья на сайте Аптека Бориса ниже, чем в среднем в аптеках. Мы сотрудничаем напрямую с производителями, поэтому заказанные на сайте Аптека Бориса товары поступают в аптеку напрямую с нашего склада без посредников или перекупщиков.';
@@ -155,17 +159,13 @@ const App: React.FC = () => {
           </div>
           <div className="social__networks__wrapper">
             <span className="footer__title">Мы в соц-сетях:</span>
-            <div className="social__links">
-              {/* <a href="https://vk.com/al_im.php?peers=c1_c4_140522778">
-                <img className="" src="" alt="" />
-              </a>
-              <a href="https://web.whatsapp.com/">
-                <img className="" src="" alt="" />
-              </a>
-              <a href="https://web.telegram.org/?legacy=1#/login">
-                <img className="" src="" alt="" />
-              </a> */}
-            </div>
+            <SocialNetworks
+              items={[
+                { icon: vkIcon, src: 'https://vk.com' },
+                { icon: telegramIcon, src: 'https://telegram.org' },
+                { icon: whatsappIcon, src: 'https://whatsapp.com' },
+              ]}
+            />
           </div>
         </div>
         <div className="rights">

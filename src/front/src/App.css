@@ -114,10 +114,6 @@
   flex-direction: column;
   min-width: 150px;
 }
-.social__links {
-  flex-direction: row;
-  display: flex;
-}
 .rights {
   display: flex;
   height: 50px;
