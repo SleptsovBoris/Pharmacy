@@ -1,5 +1,8 @@
-import { Button, List } from 'antd';
+import { Collapse } from 'antd';
 import { IOrder } from '../../Cart';
+import CartList from '../CartList';
+
+const { Panel } = Collapse;
 
 interface IProps {
   orders: IOrder[];
@@ -8,26 +11,13 @@ interface IProps {
 
 const OrdersTab: React.FC<IProps> = (props: IProps) => {
   return (
-    <List
-      itemLayout="horizontal"
-      dataSource={props.orders}
-      renderItem={item => (
-        <List.Item
-          actions={[
-            <Button
-              key={'remove button from cart'}
-              type="default"
-              danger
-              onClick={() => props.handleRemoveItemFromOrder(item)}
-            >
-              Удалить
-            </Button>,
-          ]}
-        >
-          {`${item.date} - ${item.totalPrice} ₽`}
-        </List.Item>
-      )}
-    />
+    <Collapse>
+      {props.orders.map(order => (
+        <Panel key={order.id!} header={`${order.date} - ${order.totalPrice} ₽`}>
+          <CartList cartItems={order.products} />
+        </Panel>
+      ))}
+    </Collapse>
   );
 };
 

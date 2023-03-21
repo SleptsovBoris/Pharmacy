@@ -21,7 +21,7 @@ interface IProps {
 
 export interface IOrder {
   id?: number;
-  products: IProduct[];
+  products: CartItem[];
   totalPrice: number;
   date: string;
 }
