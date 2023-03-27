@@ -1,17 +1,20 @@
+@import 'constants/styles.scss';
+
 .loading__product {
   margin: 0 32px 50px 32px;
   width: calc(100% / 4 - 96px);
   padding: 15px;
-  background-color: bisque;
+  background-color: $interactive-element-bg-color;
   border-radius: 10px;
   box-sizing: content-box;
   text-align: center;
   display: flex;
   flex-direction: column;
-}
-.custom-skeleton-button-style {
-  width: 100% !important;
-}
-.ant-space-item {
-  width: 45%;
+
+  .custom-skeleton-button-style {
+    width: 100% !important;
+  }
+  .ant-space-item {
+    width: 45%;
+  }
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import logo from 'assets/pharmacy_logo.png';
-import 'App.css';
+import 'App.scss';
 import NavBar from 'components/NavBar';
 import Products from 'components/Products/Products';
 import Cart from 'components/Cart/Cart';

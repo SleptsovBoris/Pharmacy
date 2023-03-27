@@ -2,7 +2,7 @@ import { DeleteOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, InputNumber, List, Space } from 'antd';
 import { IProduct } from 'api/baseApi/models/Product';
 import { CartItem } from 'App';
-import './CartList.css';
+import './CartList.scss';
 
 interface IProps {
   cartItems: CartItem[];

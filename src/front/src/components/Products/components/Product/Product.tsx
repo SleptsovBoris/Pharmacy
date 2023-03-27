@@ -1,4 +1,4 @@
-import './Product.css';
+import './Product.scss';
 import { Button, Space, Divider, Modal, Tooltip } from 'antd';
 import { useState } from 'react';
 import { IProduct } from 'api/baseApi/models/Product';

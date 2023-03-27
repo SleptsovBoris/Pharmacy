@@ -1,0 +1,20 @@
+.social__networks {
+  display: flex;
+  margin: 0 -12px;
+
+  .social__network {
+    width: 32px;
+    height: 32px;
+    margin: 0 12px;
+    padding: 0;
+    display: block;
+    box-sizing: content-box;
+
+    .social__network__image {
+      width: 32px;
+      height: 32px;
+      display: block;
+      object-fit: scale-down;
+    }
+  }
+}

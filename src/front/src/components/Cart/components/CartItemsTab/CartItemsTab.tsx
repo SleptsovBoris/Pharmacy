@@ -3,7 +3,7 @@ import { IProduct } from 'api/baseApi/models/Product';
 import { CartItem } from 'App';
 import { IOrder } from '../../Cart';
 import CartList from '../CartList';
-import './CartItemsTab.css';
+import './CartItemsTab.scss';
 
 interface IProps {
   cartItems: CartItem[];

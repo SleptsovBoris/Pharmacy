@@ -1,5 +1,5 @@
 import { Divider, Skeleton, Space } from 'antd';
-import './LoadingProduct.css';
+import './LoadingProduct.scss';
 
 const LoadingProduct: React.FC = () => {
   return (
