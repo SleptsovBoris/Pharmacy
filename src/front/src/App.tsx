@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import logo from 'assets/pharmacy_logo.png';
 import 'App.scss';
 import NavBar from 'components/NavBar';
 import Products from 'components/Products/Products';
 import Cart from 'components/Cart/Cart';
-import cookiesNames from 'constants/cookiesNames';
-import cookies from 'utils/cookies';
 import { IProduct } from 'api/baseApi/models/Product';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
 import SocialNetworks from 'components/Social_networks/SocialNetworks';
@@ -22,47 +20,6 @@ export type CartItem = IProduct & {
 
 const App: React.FC = () => {
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
-  useEffect(() => {
-    setCartItems(cookies.get(cookiesNames.cart) ?? []);
-  }, []);
-
-  const handleAddItemToCart = (product: IProduct) => {
-    if (cartItems.find(cartItem => cartItem.id == product.id)) return;
-
-    const newCartItems = [...cartItems, { ...product, count: 1 }];
-
-    setCartItems(newCartItems);
-
-    handleCartItemsChange(newCartItems);
-  };
-
-  const handleChangeCartItemCount = (cartItemId: number, newCount: number) => {
-    if (newCount < 1 || newCount > 100) return;
-
-    const newCartItems = cartItems.slice();
-    const cartItem = newCartItems.find(cartItem => cartItem.id == cartItemId);
-
-    if (!cartItem) return;
-    cartItem.count = newCount;
-    setCartItems(newCartItems);
-  };
-
-  const handleRemoveItemFromCart = (product: IProduct) => {
-    const newCartItems = [
-      ...cartItems.filter(cartItem => cartItem.id !== product.id),
-    ];
-
-    setCartItems(newCartItems);
-
-    handleCartItemsChange(newCartItems);
-  };
-
-  const handleClearCart = () => {
-    setCartItems([]);
-    handleCartItemsChange([]);
-  };
 
   const handleOpenCart = () => {
     setIsCartModalOpen(true);
@@ -70,10 +27,6 @@ const App: React.FC = () => {
 
   const handleCloseCart = () => {
     setIsCartModalOpen(false);
-  };
-
-  const handleCartItemsChange = (newCartItems: CartItem[]) => {
-    cookies.set(cookiesNames.cart, newCartItems);
   };
 
   return (
@@ -101,13 +54,9 @@ const App: React.FC = () => {
         />
         <div className="cart__wrapper">
           <Cart
-            cartItems={cartItems}
-            handleRemoveItemFromCart={handleRemoveItemFromCart}
-            handleClearCart={handleClearCart}
             isCartModalOpen={isCartModalOpen}
             handleOpenCart={handleOpenCart}
             handleCloseCart={handleCloseCart}
-            handleChangeCartItemCount={handleChangeCartItemCount}
           />
         </div>
       </div>
@@ -120,11 +69,7 @@ const App: React.FC = () => {
         </div>
         <div className="products__area" id="products__area">
           <div className="title">Наши лекарства</div>
-          <Products
-            handleAddItemToCart={handleAddItemToCart}
-            cartItems={cartItems}
-            handleOpenCart={handleOpenCart}
-          />
+          <Products handleOpenCart={handleOpenCart} />
         </div>
       </div>
 

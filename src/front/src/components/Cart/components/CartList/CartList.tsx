@@ -1,12 +1,11 @@
 import { DeleteOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, InputNumber, List, Space } from 'antd';
-import { IProduct } from 'api/baseApi/models/Product';
 import { CartItem } from 'App';
 import './CartList.scss';
 
 interface IProps {
   cartItems: CartItem[];
-  handleRemoveItemFromCart?: (item: IProduct) => void;
+  handleRemoveItemFromCart?: (itemId: number) => void;
   handleChangeCartItemCount?: (cartItem: number, newCount: number) => void;
 }
 
@@ -63,7 +62,7 @@ const CartList: React.FC<IProps> = (props: IProps) => {
                 key={'delete-item-button'}
                 onClick={() => {
                   if (props.handleRemoveItemFromCart)
-                    props.handleRemoveItemFromCart(item);
+                    props.handleRemoveItemFromCart(item.id);
                 }}
                 icon={<DeleteOutlined />}
                 danger

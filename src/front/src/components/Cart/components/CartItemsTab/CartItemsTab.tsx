@@ -1,48 +1,58 @@
 import { Button, Divider } from 'antd';
-import { IProduct } from 'api/baseApi/models/Product';
-import { CartItem } from 'App';
 import { IOrder } from '../../Cart';
 import CartList from '../CartList';
 import './CartItemsTab.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/rootReducer';
+import {
+  clearCart,
+  removeProduct,
+  setProductCount,
+} from 'redux/ducks/cart_list';
 
 interface IProps {
-  cartItems: CartItem[];
-  handleRemoveItemFromCart: (item: IProduct) => void;
   handleAddOrder: (order: IOrder) => void;
-  handleChangeCartItemCount: (cartItem: number, newCount: number) => void;
 }
 
 const CartItemsTab: React.FC<IProps> = (props: IProps) => {
-  const totalPrice = props.cartItems.reduce(
+  const cartState = useSelector((state: RootState) => state.cartList);
+  const dispatch = useDispatch();
+  const totalPrice = cartState.items.reduce(
     (result, cartItem) => result + cartItem.price * cartItem.count,
     0
   );
 
   const handleAddOrder = () => {
-    if (props.cartItems.length === 0) return;
+    if (cartState.items.length === 0) return;
 
     const order: IOrder = {
-      products: props.cartItems,
+      products: cartState.items,
       totalPrice: totalPrice,
       date: new Date().toDateString(),
     };
     props.handleAddOrder(order);
+
+    dispatch(clearCart());
   };
 
   return (
     <>
       <CartList
-        cartItems={props.cartItems}
-        handleChangeCartItemCount={props.handleChangeCartItemCount}
-        handleRemoveItemFromCart={props.handleRemoveItemFromCart}
+        cartItems={cartState.items}
+        handleChangeCartItemCount={(cartItemId: number, newCount: number) => {
+          dispatch(setProductCount(cartItemId, newCount));
+        }}
+        handleRemoveItemFromCart={(cartItemId: number) => {
+          dispatch(removeProduct(cartItemId));
+        }}
       />
       <Divider />
       <div className="add__order__wrapper">
         <div className="total__price">
-          {props.cartItems.length === 0 ? '' : `${totalPrice} ₽`}
+          {cartState.items.length === 0 ? '' : `${totalPrice} ₽`}
         </div>
         <Button
-          disabled={props.cartItems.length === 0}
+          disabled={cartState.items.length === 0}
           size={'large'}
           onClick={handleAddOrder}
         >

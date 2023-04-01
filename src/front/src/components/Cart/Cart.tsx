@@ -2,21 +2,18 @@ import { ShoppingCartOutlined } from '@ant-design/icons';
 import { Badge, Button, Modal, Space, Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 import { randomNumberInRange } from 'utils/RandomNumber';
-import { IProduct } from 'api/baseApi/models/Product';
 import CartItemsTab from './components/CartItemsTab';
 import OrdersTab from './components/OrdersTab';
 import cookies from 'utils/cookies';
 import cookiesNames from 'constants/cookiesNames';
 import { CartItem } from 'App';
+import { RootState } from 'redux/rootReducer';
+import { useSelector } from 'react-redux';
 
 interface IProps {
-  cartItems: CartItem[];
-  handleRemoveItemFromCart: (item: IProduct) => void;
-  handleClearCart: () => void;
   isCartModalOpen: boolean;
   handleOpenCart: () => void;
   handleCloseCart: () => void;
-  handleChangeCartItemCount: (cartItem: number, newCount: number) => void;
 }
 
 export interface IOrder {
@@ -28,6 +25,7 @@ export interface IOrder {
 
 const Cart: React.FC<IProps> = (props: IProps) => {
   const [orders, setOrders] = useState<IOrder[]>([]);
+  const cartState = useSelector((state: RootState) => state.cartList);
 
   useEffect(() => {
     const ordersFromCookies =
@@ -46,8 +44,6 @@ const Cart: React.FC<IProps> = (props: IProps) => {
     setOrders(newOrders);
 
     handleChangeOrders(newOrders);
-
-    props.handleClearCart();
   };
 
   const handleRemoveOrder = (orderToDelete: IOrder) => {
@@ -61,7 +57,7 @@ const Cart: React.FC<IProps> = (props: IProps) => {
   return (
     <>
       <Space>
-        <Badge count={props.cartItems.length}>
+        <Badge count={cartState.items.length}>
           <Button
             size="large"
             type="text"
@@ -91,14 +87,7 @@ const Cart: React.FC<IProps> = (props: IProps) => {
             {
               label: 'Корзина',
               key: '1',
-              children: (
-                <CartItemsTab
-                  cartItems={props.cartItems}
-                  handleRemoveItemFromCart={props.handleRemoveItemFromCart}
-                  handleAddOrder={handleAddOrder}
-                  handleChangeCartItemCount={props.handleChangeCartItemCount}
-                />
-              ),
+              children: <CartItemsTab handleAddOrder={handleAddOrder} />,
             },
             {
               label: 'Заказы',
