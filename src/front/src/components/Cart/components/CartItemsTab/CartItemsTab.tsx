@@ -1,5 +1,4 @@
 import { Button, Divider } from 'antd';
-import { IOrder } from '../../Cart';
 import CartList from '../CartList';
 import './CartItemsTab.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,12 +8,9 @@ import {
   removeProduct,
   setProductCount,
 } from 'redux/ducks/cart_list';
+import { IOrder, addOrder } from 'redux/ducks/orders_list';
 
-interface IProps {
-  handleAddOrder: (order: IOrder) => void;
-}
-
-const CartItemsTab: React.FC<IProps> = (props: IProps) => {
+const CartItemsTab: React.FC = () => {
   const cartState = useSelector((state: RootState) => state.cartList);
   const dispatch = useDispatch();
   const totalPrice = cartState.items.reduce(
@@ -28,9 +24,9 @@ const CartItemsTab: React.FC<IProps> = (props: IProps) => {
     const order: IOrder = {
       products: cartState.items,
       totalPrice: totalPrice,
-      date: new Date().toDateString(),
+      date: new Date(),
     };
-    props.handleAddOrder(order);
+    dispatch(addOrder(order));
 
     dispatch(clearCart());
   };

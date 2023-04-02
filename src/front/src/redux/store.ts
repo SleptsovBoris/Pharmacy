@@ -7,6 +7,7 @@ const persistedState: RootState = localStorage.getItem(
 )
   ? (JSON.parse(
       localStorage.getItem(localStorageNames.reduxState) as string
+      //eslint-disable-next-line
     ) as RootState)
   : ({} as RootState);
 
