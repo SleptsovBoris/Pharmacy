@@ -1,0 +1,32 @@
+@import 'constants/styles';
+
+.pharmacy__wrapper {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 10px;
+  border: 1px solid $button-background-color;
+  padding: 10px;
+  margin: 10px;
+
+  .pharmacy__address {
+    font-size: 1.2rem;
+    font-weight: 500;
+    width: 50%;
+  }
+
+  .pharmacy__worktime {
+    font-size: 1.2rem;
+    font-weight: 500;
+    width: 30%;
+  }
+
+  .icon__wrapper {
+    height: 4vh;
+
+    .favorite__icon {
+      width: 100%;
+      height: 100%;
+      object-fit: scale-down;
+    }
+  }
+}

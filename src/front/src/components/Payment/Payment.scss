@@ -1,0 +1,47 @@
+@import 'constants/styles.scss';
+
+.payment__area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.payment__title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 40px 0;
+}
+
+.payment__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 40vh;
+  min-width: 40%;
+  border-radius: 10px;
+  padding: 15px;
+  background-color: $form-background-color;
+
+  .payment__input {
+    width: 100%;
+    height: 5vh;
+    margin: 10px;
+    padding: 15px;
+    border: 1px solid $button-background-color;
+  }
+
+  .payment__button {
+    width: 70%;
+    height: 5vh;
+    background-color: $button-background-color;
+    color: $form-background-color;
+    border: none;
+    border-radius: 40px;
+  }
+
+  .payment__button:hover {
+    cursor: pointer;
+    scale: (1.01);
+  }
+}

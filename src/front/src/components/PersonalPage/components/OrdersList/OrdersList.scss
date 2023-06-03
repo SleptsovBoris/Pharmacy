@@ -1,0 +1,27 @@
+.order-collapse-wrapper {
+  margin: 8px 0;
+}
+.order {
+  display: flex;
+  justify-content: space-between;
+
+  .order__date {
+    width: 20%;
+  }
+
+  .order__price {
+    width: 20%;
+  }
+
+  .order__address {
+    width: 30%;
+  }
+
+  .order__state {
+    width: 20%;
+
+    .state {
+      color: blue;
+    }
+  }
+}

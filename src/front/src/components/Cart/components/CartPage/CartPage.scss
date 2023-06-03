@@ -1,0 +1,57 @@
+@import 'constants/styles.scss';
+
+.cart__area {
+  min-height: 70vh;
+  width: 100%;
+  padding: 40px 0;
+
+  .cart__title {
+    font-size: 2rem;
+    font-weight: 500;
+    color: $text-color;
+    display: flex;
+    margin: 0 0 40px 0;
+  }
+
+  .cartlist__wrapper {
+    background-color: $form-background-color;
+    padding: 2%;
+    border-radius: 10px;
+  }
+
+  .add__order__wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+
+    .add__order__button {
+      background-color: $button-background-color;
+      color: $form-background-color;
+      border-radius: 40px;
+      width: 15%;
+      height: 5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+    }
+
+    .add__order__button:disabled {
+      background-color: $form-background-color;
+      color: $body-background-color;
+      scale: 1;
+      border: 1px solid $body-background-color;
+    }
+
+    .add__order__button:hover {
+      cursor: pointer;
+      scale: (1.01);
+    }
+
+    .total__price {
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+  }
+}

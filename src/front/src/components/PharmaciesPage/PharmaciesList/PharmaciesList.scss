@@ -1,0 +1,13 @@
+.pharmacies__row__wrapper {
+  display: flex;
+  padding: 0 10px;
+
+  .pharmacies__address {
+    width: 58%;
+    font-size: 1.1rem;
+  }
+  .pharmacies__worktime {
+    width: 42%;
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,20 @@
+@import 'constants/styles.scss';
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  margin: 0 -32px;
+  justify-content: left;
+}
+.loading-wrapper {
+  min-height: 50px;
+  display: flex;
+  align-content: space-between;
+  margin: 0 -32px;
+  justify-content: left;
+}
+.empty-products-wrapper {
+  color: $text-color;
+  padding: 16px 0 48px 0;
+}

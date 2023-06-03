@@ -1,4 +1,5 @@
-@import './constants/styles.scss';
+@import 'constants/styles.scss';
+
 /* header */
 .header {
   background-color: $header-background-color;
@@ -13,13 +14,65 @@
   box-shadow: 0 1px 10px 0 $shadow-color;
   z-index: 1000;
 
+  .menu__icon {
+    display: flex;
+    align-items: center;
+    margin-right: 5vw;
+  }
+
+  .menu__icon:hover {
+    cursor: pointer;
+    scale: (1.01);
+  }
+
+  .user__icon__wrapper {
+    display: flex;
+    text-decoration: none;
+    flex-direction: row;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: $inversed-text-color;
+    box-sizing: content-box;
+    user-select: none;
+  }
+  .user__img {
+    object-fit: scale-down;
+    height: 50%;
+    width: 100%;
+  }
+  .user__icon__wrapper:hover {
+    cursor: pointer;
+    scale: (1.01);
+  }
+}
+
+.subheader {
+  background-color: $body-background-color;
+  position: fixed;
+  width: 100%;
+  height: $subheader-height;
+  top: 10vh;
+  padding: 0 $page-horizontal-padding;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  box-shadow: 0 1px 10px 0 $shadow-color;
+  border-bottom: 1px solid $header-background-color;
+  z-index: 1;
+
   .logo {
-    width: calc($header-height - 30px);
-    height: calc($header-height - 30px);
+    width: calc($subheader-height + 60px);
+    height: calc($subheader-height - 50px);
+    justify-content: space-between;
     padding: 15px 0;
     user-select: none;
     position: absolute;
-    left: calc($page-horizontal-padding - (calc($header-height - 30px) + 32px));
+    display: flex;
+    flex-direction: row;
+    font-size: 1.7rem;
+    font-weight: 700;
+    left: calc($page-horizontal-padding - 10px);
     box-sizing: content-box;
 
     .logo__img {
@@ -33,42 +86,118 @@
     cursor: pointer;
   }
 
-  .cart__wrapper {
+  .catalog__button {
+    background-color: $button-background-color;
+    width: 12%;
+    height: calc($subheader-height - 60px);
+    border-radius: 40px;
     position: absolute;
-    right: 12vw;
-    height: 100%;
     display: flex;
     align-items: center;
+    left: 28vw;
+    top: 3vh;
+    color: $inversed-text-color;
+    font-size: 1.2rem;
+    font-weight: 500;
+    justify-content: center;
+    gap: 5%;
+    user-select: none;
   }
 
-  .cart__wrapper:hover {
-    scale: 1.1;
+  .catalog__button:hover {
+    cursor: pointer;
+    scale: (1.01);
+  }
+
+  .search__area {
+    display: flex;
+    flex-direction: column;
+    top: 3vh;
+    left: 42vw;
+    position: absolute;
+    width: 40%;
+  }
+
+  .search__example {
+    position: absolute;
+    top: 7vh;
+    font-size: 0.9rem;
+    font-weight: 200;
+    padding: 8px 20px;
+  }
+
+  .search__box {
+    background-color: white;
+    width: 74%;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    height: calc($subheader-height - 60px);
+    border-radius: 40px 0 0 40px;
+    border: 1px solid $button-background-color;
+    color: $button-background-color;
+  }
+
+  .search__button {
+    background-color: $button-background-color;
+    width: 10%;
+    height: calc($subheader-height - 60px);
+    position: absolute;
+    display: flex;
+    align-items: center;
+    color: $inversed-text-color;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 10px;
+    top: 3vh;
+    right: 18vw;
+    user-select: none;
+    border-radius: 0 40px 40px 0;
+
+    .lupa__img {
+      object-fit: scale-down;
+      height: 100%;
+      width: 40%;
+    }
+  }
+
+  .search__button:hover {
+    cursor: pointer;
+    scale: (1.01);
+  }
+
+  .cart__button__wrapper {
+    position: absolute;
+    right: 12vw;
+    top: 3vh;
+    border: 1px solid $button-background-color;
+    border-radius: 50px;
+  }
+
+  .cart__button__wrapper:hover {
+    scale: 1.01;
   }
 }
 
 /* body */
 .body {
   background-color: $body-background-color;
-  margin-top: $header-height;
+  margin-top: $header-height + $subheader-height;
   min-height: calc(100vh - $header-height - $footer-height);
-  padding: 0 $page-horizontal-padding;
+  padding: 0 $page-horizontal-padding $header-height $page-horizontal-padding;
 
   .about__area {
-    padding: 20vh 25vw;
+    padding: 10vh 25vw;
     background: url(./assets/background.png) no-repeat center;
     background-size: contain;
   }
 
-  .products__area {
-    padding: 10vh 0;
-  }
-
   .title {
-    text-align: center;
-    font-size: 2.7rem;
+    font-size: 2rem;
     font-weight: 500;
     margin-bottom: 30px;
-    color: $inversed-text-color;
+    color: $text-color;
   }
 
   .content {
@@ -89,7 +218,7 @@
   .footer__title {
     font-size: 1.2rem;
     font-weight: 500;
-    margin-bottom: 12px;
+    margin: 12px 0;
   }
 
   .footer__body {
@@ -110,24 +239,24 @@
       }
     }
 
-    .yandex-maps__wrapper {
-      min-width: 450px;
-      width: 600px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 300px;
-
-      .yandex-map {
-        width: 100%;
-        height: 100%;
-      }
-    }
-
     .social__networks__wrapper {
       display: flex;
       flex-direction: column;
       min-width: 150px;
+    }
+  }
+
+  .footer__navbar {
+    font-size: 1.2rem;
+    font-weight: 500;
+
+    .nav {
+      margin-top: 12px;
+      margin-bottom: 20px;
+    }
+    .nav:hover {
+      cursor: pointer;
+      scale: (1.01);
     }
   }
 
@@ -140,4 +269,20 @@
     font-weight: 500;
     margin-bottom: 20px;
   }
+}
+
+.cart-wrapper {
+  width: 450px;
+  min-height: 350px;
+  max-height: 500px;
+  padding: 15px;
+  border-radius: 0 0 10px 10px;
+  border: 1px solid lightgrey;
+  background-color: $body-background-color;
+  box-shadow: 2px 4px 5px $shadow-color;
+  color: white;
+  position: fixed;
+  top: calc($header-height + 1px);
+  right: $page-horizontal-padding;
+  z-index: 1000;
 }

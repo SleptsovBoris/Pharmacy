@@ -1,0 +1,50 @@
+@import 'constants/styles';
+
+.order__pharmacy__wrapper {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 10px;
+  border: 1px solid $button-background-color;
+  padding: 15px;
+  align-items: center;
+  margin: 10px 0;
+
+  .pharmacy__address {
+    font-size: 1.2rem;
+    font-weight: 500;
+    width: 35%;
+  }
+
+  .pharmacy__worktime {
+    font-size: 1.2rem;
+    font-weight: 500;
+    width: 20%;
+  }
+
+  .icon__wrapper {
+    height: 4vh;
+
+    .favorite__icon {
+      width: 90%;
+      height: 90%;
+      object-fit: scale-down;
+    }
+    .favorite__icon:hover {
+      cursor: pointer;
+      scale: (1.05);
+    }
+  }
+
+  .pharmacy__button {
+    border: none;
+    width: 15%;
+    height: 4vh;
+    border-radius: 10px;
+    background-color: $button-background-color;
+    color: $form-background-color;
+  }
+  .pharmacy__button:hover {
+    cursor: pointer;
+    scale: (1.02);
+  }
+}

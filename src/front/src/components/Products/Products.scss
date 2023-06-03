@@ -1,9 +1,11 @@
+@import 'constants/styles.scss';
+
 .products {
   display: flex;
   flex-wrap: wrap;
   align-content: space-between;
-  margin: 0 -32px;
-  justify-content: left;
+  margin-left: 20px;
+  justify-content: space-between;
 }
 .loading-wrapper {
   min-height: 50px;
@@ -11,4 +13,8 @@
   align-content: space-between;
   margin: 0 -32px;
   justify-content: left;
+}
+.empty-products-wrapper {
+  color: $text-color;
+  padding: 16px 0 48px 0;
 }

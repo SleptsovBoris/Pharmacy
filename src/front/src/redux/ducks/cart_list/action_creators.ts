@@ -1,4 +1,4 @@
-import { IProduct } from 'api/baseApi/models/Product';
+import { IDrug } from 'api/types/drug';
 import {
   ADD_PRODUCT,
   INCREMENT_PRODUCT_COUNT,
@@ -8,7 +8,7 @@ import {
   CLEAR_CART,
 } from './action_types';
 
-export const addProduct = (product: IProduct) =>
+export const addProduct = (product: IDrug) =>
   ({ type: ADD_PRODUCT, payload: product } as const);
 
 export const incrementProductCount = (productId: number) =>

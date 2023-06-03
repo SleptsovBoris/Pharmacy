@@ -1,8 +1,8 @@
-import { IProduct } from 'api/baseApi/models/Product';
+import { IDrug } from 'api/types/drug';
 import * as actionTypes from './action_types';
 import { ActionsType } from './types';
 
-export type CartItem = IProduct & {
+export type CartItem = IDrug & {
   count: number;
 };
 
@@ -21,7 +21,7 @@ const reducer = (
   switch (action.type) {
     case actionTypes.ADD_PRODUCT: {
       const productInCartList = state.items.find(
-        cartItem => cartItem.id == action.payload.id
+        cartItem => cartItem.drugId == action.payload.drugId
       );
       if (!productInCartList) {
         return {
@@ -34,7 +34,7 @@ const reducer = (
 
     case actionTypes.INCREMENT_PRODUCT_COUNT: {
       const productInCartList = state.items.find(
-        cartItem => cartItem.id == action.payload
+        cartItem => cartItem.drugId == action.payload
       );
       if (productInCartList && productInCartList.count < 100) {
         productInCartList!.count++;
@@ -47,7 +47,7 @@ const reducer = (
 
     case actionTypes.DECREMENT_PRODUCT_COUNT: {
       const productInCartList = state.items.find(
-        cartItem => cartItem.id == action.payload
+        cartItem => cartItem.drugId == action.payload
       );
       if (productInCartList && productInCartList.count > 0) {
         productInCartList!.count--;
@@ -60,7 +60,7 @@ const reducer = (
 
     case actionTypes.SET_PRODUCT_COUNT: {
       const productInCartList = state.items.find(
-        cartItem => cartItem.id == action.payload.productId
+        cartItem => cartItem.drugId == action.payload.productId
       );
       if (
         productInCartList &&
@@ -78,11 +78,13 @@ const reducer = (
 
     case actionTypes.REMOVE_PRODUCT: {
       const productInCartList = state.items.find(
-        cartItem => cartItem.id == action.payload
+        cartItem => cartItem.drugId == action.payload
       );
       if (productInCartList) {
         return {
-          items: state.items.filter(cartItem => cartItem.id != action.payload),
+          items: state.items.filter(
+            cartItem => cartItem.drugId != action.payload
+          ),
         } as ICartListState;
       }
       return state;

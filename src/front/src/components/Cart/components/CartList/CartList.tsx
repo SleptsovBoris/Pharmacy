@@ -1,7 +1,8 @@
 import { DeleteOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, InputNumber, List, Space } from 'antd';
+import { Button, Empty, InputNumber, List, Space } from 'antd';
 import { CartItem } from 'App';
 import './CartList.scss';
+import locale from 'constants/locale';
 
 interface IProps {
   cartItems: CartItem[];
@@ -12,17 +13,18 @@ interface IProps {
 const CartList: React.FC<IProps> = (props: IProps) => {
   return (
     <List
+      locale={{ emptyText: <Empty description={locale.noDataMessage} /> }}
       itemLayout="horizontal"
       dataSource={props.cartItems}
       renderItem={item => (
         <div className="cart__item">
           <div className="cart__item__content__wrapper">
             <div className="cart__item__image__wrapper">
-              <img className="cart__item__image" src={item.image} alt="" />
+              <img className="cart__item__image" src={item.img} alt="" />
             </div>
-            <div className="cart__item__title">{item.title}</div>
+            <div className="cart__item__title">{item.drugName}</div>
             <div className="cart__item__price__wrapper">
-              <div className="cart__item__price">{item.price} ₽</div>
+              <div className="cart__item__price">от {item.price} ₽</div>
             </div>
           </div>
           <div className="cart__item__actions__bar">
@@ -32,7 +34,10 @@ const CartList: React.FC<IProps> = (props: IProps) => {
                   icon={<MinusOutlined />}
                   onClick={() => {
                     if (props.handleChangeCartItemCount)
-                      props.handleChangeCartItemCount(item.id, item.count - 1);
+                      props.handleChangeCartItemCount(
+                        item.drugId,
+                        item.count - 1
+                      );
                   }}
                 />
               )}
@@ -44,7 +49,7 @@ const CartList: React.FC<IProps> = (props: IProps) => {
                 value={item.count}
                 onChange={value => {
                   if (props.handleChangeCartItemCount)
-                    props.handleChangeCartItemCount(item.id, value ?? 1);
+                    props.handleChangeCartItemCount(item.drugId, value ?? 1);
                 }}
               />
               {props.handleChangeCartItemCount && (
@@ -52,7 +57,10 @@ const CartList: React.FC<IProps> = (props: IProps) => {
                   icon={<PlusOutlined />}
                   onClick={() => {
                     if (props.handleChangeCartItemCount)
-                      props.handleChangeCartItemCount(item.id, item.count + 1);
+                      props.handleChangeCartItemCount(
+                        item.drugId,
+                        item.count + 1
+                      );
                   }}
                 />
               )}
@@ -62,7 +70,7 @@ const CartList: React.FC<IProps> = (props: IProps) => {
                 key={'delete-item-button'}
                 onClick={() => {
                   if (props.handleRemoveItemFromCart)
-                    props.handleRemoveItemFromCart(item.id);
+                    props.handleRemoveItemFromCart(item.drugId);
                 }}
                 icon={<DeleteOutlined />}
                 danger

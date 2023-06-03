@@ -1,0 +1,130 @@
+@import 'constants/styles.scss';
+
+.personal__area {
+  min-height: 70vh;
+  width: 100%;
+  padding: 40px 0;
+
+  .personal__title {
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 0 0 40px 0;
+  }
+
+  .change__info {
+    display: flex;
+    justify-content: space-between;
+
+    .profile__subtitle {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .pen__image:hover {
+      scale: (1.11);
+    }
+  }
+
+  .personal__subtitle {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  .logout__button {
+    border-radius: 40px;
+    border: none;
+    height: 5vh;
+    width: 15vw;
+    font-size: 1.1rem;
+    font-weight: 500;
+    background-color: $button-background-color;
+    color: $body-background-color;
+  }
+  .logout__button:hover {
+    cursor: pointer;
+    scale: (1.001);
+  }
+
+  .row__wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .personal__form {
+      background-color: $form-background-color;
+      width: 47%;
+      border-radius: 5px;
+      padding: 30px 20px;
+
+      .pharmacies__list {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .personal__info__wrapper {
+        padding: 0 20px;
+
+        .personal__field {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+
+          .personal__info {
+            width: 20%;
+            margin: 10px;
+          }
+
+          .input__box {
+            width: 80%;
+            margin: 10px;
+          }
+        }
+      }
+    }
+
+    .change__buttons {
+      width: 100%;
+      justify-content: space-around;
+      display: flex;
+      margin-top: 5vh;
+
+      .cancel__button {
+        border: 1px solid $button-background-color;
+        font-size: 1.1rem;
+        font-weight: 500;
+        border-radius: 10px;
+        background-color: $form-background-color;
+        width: 200px;
+        height: 5vh;
+        margin-right: 10px;
+      }
+      .confirm__button {
+        border: none;
+        width: 200px;
+        height: 5vh;
+        background-color: $button-background-color;
+        color: $text-color;
+        border-radius: 10px;
+      }
+      .confirm__button:hover {
+        cursor: pointer;
+        scale: 1.01;
+      }
+      .cancel__button:hover {
+        cursor: pointer;
+        scale: 1.01;
+      }
+    }
+  }
+
+  .personal__form2 {
+    margin-top: 5vh;
+    background-color: $form-background-color;
+    border-radius: 5px;
+    padding: 30px 20px;
+
+    .products__list {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+  }
+}

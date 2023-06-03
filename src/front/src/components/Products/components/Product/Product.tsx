@@ -1,83 +1,64 @@
 import './Product.scss';
-import { Button, Space, Divider, Modal, Tooltip } from 'antd';
-import { useState } from 'react';
-import { IProduct } from 'api/baseApi/models/Product';
+import { Divider, Tooltip } from 'antd';
+import not_favorite from 'assets/not_favorite.svg';
+import { IDrug } from 'api/types/drug';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/rootReducer';
 import { addProduct } from 'redux/ducks/cart_list';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {
-  item: IProduct;
-  handleOpenCart: () => void;
+  item: IDrug;
 }
 
 const Product: React.FC<IProps> = (props: IProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const cartState = useSelector((state: RootState) => state.cartList);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleMoreClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
+  const handleNavigate = () => {
+    navigate(
+      `/catalog/${props.item.drugId}/${props.item.formId}/${props.item.kindId}/${props.item.manufacturerId}`
+    );
   };
 
   return (
     <>
       <div className="product">
         <div className="product__image__wrapper">
-          <img className="product__image" src={props.item.image} alt="" />
+          <img className="product__image" src={props.item.img} alt="" />
         </div>
-        <div className="product__title">{props.item.title}</div>
+        <div className="product__row">
+          <div className="product__price">{props.item.price} ₽</div>
+          <div className="fav__img__wrapper">
+            <img className="fav__img" src={not_favorite} alt="" />
+          </div>
+        </div>
+
         <Divider style={{ margin: '10px 0' }} />
-        <div className="product__price">{props.item.price} ₽</div>
-        <div className="product__description">
-          Описание: {props.item.description}
-        </div>
+        <div className="product__title">{props.item.drugName}</div>
+        <div className="product__description">{props.item.description}</div>
+        <Divider style={{ margin: '10px 0' }} />
         <div className="product__actions__button__wrapper">
-          <Space.Compact block size="large">
-            {cartState.items.find(cartItem => cartItem.id === props.item.id) ? (
-              <Tooltip title="Товар уже в корзине">
-                <Button block type="text" onClick={props.handleOpenCart}>
-                  В корзине
-                </Button>
-              </Tooltip>
-            ) : (
-              <Button
-                block
-                type="text"
-                onClick={() => dispatch(addProduct(props.item))}
-              >
-                В корзину
-              </Button>
-            )}
-            <Button block type="text" onClick={handleMoreClick}>
-              Подробнее
-            </Button>
-          </Space.Compact>
+          {cartState.items.find(
+            cartItem => cartItem.drugId === props.item.drugId
+          ) ? (
+            <Tooltip title="Товар уже в корзине">
+              <button className="in_cart_button">В корзине</button>
+            </Tooltip>
+          ) : (
+            <button
+              className="add_to_cart_button"
+              onClick={() => dispatch(addProduct(props.item))}
+            >
+              В корзину
+            </button>
+          )}
+          <button className="about__button" onClick={handleNavigate}>
+            Подробнее
+          </button>
         </div>
       </div>
-      <Modal
-        width={298}
-        title={props.item.title}
-        open={isModalOpen}
-        onCancel={handleCancel}
-        footer={null}
-        closable={false}
-        centered
-      >
-        <div className="modal-content-wrapper">
-          <div className="product__image__wrapper">
-            <img className="product__image" src={props.item.image} alt="" />
-          </div>
-          <div className="product__price">{props.item.price} ₽</div>
-          <div className="product__description">
-            Описание: {props.item.description}
-          </div>
-        </div>
-      </Modal>
     </>
   );
 };

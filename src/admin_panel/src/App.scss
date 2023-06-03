@@ -1,0 +1,62 @@
+@import 'constants/styles.scss';
+/* header */
+.header {
+  background-color: $header-background-color;
+  position: fixed;
+  width: 100%;
+  height: $header-height;
+  top: 0;
+  padding: 0 $page-horizontal-padding;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  box-shadow: 0 1px 10px 0 $shadow-color;
+  z-index: 1000;
+
+  .logo {
+    width: calc($header-height + 30px);
+    height: calc($header-height - 30px);
+    justify-content: space-between;
+    padding: 10px 0;
+    user-select: none;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    left: calc($page-horizontal-padding - 100px);
+    box-sizing: content-box;
+
+    .logo__img {
+      object-fit: scale-down;
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .logo:hover {
+    cursor: pointer;
+  }
+}
+
+/* body */
+.body {
+  background-color: $body-background-color;
+  margin-top: $header-height;
+  min-height: calc(100vh - $header-height - $footer-height);
+  padding: 0 $page-horizontal-padding;
+
+  .products__area {
+    padding: 10vh 0;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 2.7rem;
+    font-weight: 500;
+    margin-bottom: 30px;
+    color: $inversed-text-color;
+  }
+
+  .content {
+    font-size: 1.2rem;
+  }
+}
