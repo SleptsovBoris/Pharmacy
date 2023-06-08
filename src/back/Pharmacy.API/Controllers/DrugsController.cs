@@ -54,7 +54,7 @@ public class DrugsController : ControllerBase
         }
     }
 
-    [HttpPut]
+    [HttpPatch]
     public bool Put([FromBody] PutDrug drug)
     {
         try

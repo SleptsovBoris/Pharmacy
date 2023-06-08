@@ -35,7 +35,8 @@ public class Drug{
         string amount, 
         string instruction, 
         int price, 
-        string recept)
+        string recept,
+        int count)
     {
         DrugName = drugname;
         Img = image;
@@ -47,6 +48,7 @@ public class Drug{
         Instruction = instruction;
         Price = price;
         Recept = recept;
+        Count = count;
     }
 
     protected Drug()
@@ -64,12 +66,5 @@ public class Drug{
     public string Instruction {get; set;}
     public int Price {get; set;}
     public string Recept {get; set;}
-
-    public Manufacturer? Manufacturer {get; set;}
-    public DrugKind? Kind {get; set;}
-    public DrugForm? Form {get; set;}
-
-    public List<CartItem> CartItems{get; set;}
-    public List<FavorDrug> FavorDrugs{get; set;}
-    public List<PharmacyDrug> PharmacyDrugs{get; set;}
+    public int Count {get; set;}
 }

@@ -4,17 +4,20 @@ import './CartPage.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/rootReducer';
 import {
-  clearCart,
-  removeProduct,
-  setProductCount,
+  fetchCartItems,
+  removeDrug,
+  setDrugCount,
 } from 'redux/ducks/cart_list';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const CartPage: React.FC = () => {
   const cartState = useSelector((state: RootState) => state.cartList);
+  const accountState = useSelector((state: RootState) => state.account);
+  const token = accountState.account?.token ? accountState.account?.token : '';
   const dispatch = useDispatch();
   const totalPrice = cartState.items.reduce(
-    (result, cartItem) => result + cartItem.price * cartItem.count,
+    (result, cartItem) => result + cartItem.pricePerOne * cartItem.amount,
     0
   );
   const navigate = useNavigate();
@@ -23,6 +26,11 @@ const CartPage: React.FC = () => {
     if (cartState.items.length === 0) return;
     navigate('/pharmacy-choice');
   };
+
+  useEffect(() => {
+    console.log('я юз эффект');
+    dispatch(fetchCartItems(false, token));
+  }, []);
 
   return (
     <>
@@ -35,10 +43,10 @@ const CartPage: React.FC = () => {
               cartItemId: number,
               newCount: number
             ) => {
-              dispatch(setProductCount(cartItemId, newCount));
+              dispatch(setDrugCount(cartItemId, newCount, token));
             }}
             handleRemoveItemFromCart={(cartItemId: number) => {
-              dispatch(removeProduct(cartItemId));
+              dispatch(removeDrug(cartItemId, token));
             }}
           />
           <Divider />

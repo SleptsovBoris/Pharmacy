@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pharmacy.API.Dto;
+using Microsoft.EntityFrameworkCore;
 using Pharmacy.Domain.data;
 using Pharmacy.Domain.models;
 
@@ -10,13 +11,29 @@ namespace Pharmacy.API.Controllers;
 [Route("[controller]")]
 public class OrdersController : BaseController
 {
-    private readonly ILogger<DrugsController> _logger;
+    private readonly ILogger<OrdersController> _logger;
     private readonly PharmacyContext _context;
 
-    public OrdersController(ILogger<DrugsController> logger, PharmacyContext context)
+    public OrdersController(ILogger<OrdersController> logger, PharmacyContext context)
     {
         _logger = logger;
         _context = context;
+    }
+
+    [HttpGet("all")]
+    [AllowAnonymous]
+    public IActionResult GetAllOrders()
+    {
+        var response = new
+        {
+            data = _context.Orders
+                .Include(p => p.Pharmacy)
+                .Include(o => o.Cart)
+                .Include(c => c.Cart.CartItems)
+                .ThenInclude(x => x.Drug)
+        };
+
+        return Json(response);
     }
 
     [HttpGet]
@@ -27,23 +44,35 @@ public class OrdersController : BaseController
 
         var response = new
         {
-            data = _context.Orders.Where((order) => order.UserId == userId),
+            data = _context.Orders
+                .Include(p => p.Pharmacy)
+                .Include(o => o.Cart)
+                .Include(c => c.Cart.CartItems)
+                .ThenInclude(x => x.Drug)
+                .Where((order) => order.UserId == userId),
         };
 
         return Json(response);
     }
 
-    [HttpPost]
+    [HttpPost("{pharmacyId}")]
     [Authorize]
-    public IActionResult Post([FromBody] PostOrder order)
+    public IActionResult Post(int pharmacyId)
     {
         try
         {
             var userId = GetCurrentUserId();
-            var cart = _context.Carts.Find(order.CartId);
-            var pharmacy = _context.Apteki.Find(order.PharmacyId);
+            var cart = _context.Carts
+                .Include(c => c.CartItems)
+                .FirstOrDefault((cart) => cart.UserId == userId && !cart.IsOrdered);
+            var pharmacy = _context.Apteki.FirstOrDefault(pharmacy => pharmacy.AptekaId == pharmacyId);
 
-            if (cart is null) 
+            if (userId is null)
+            {
+                return BadRequest(new {errorText = "Пользователь не найден"});
+            }
+
+            if (cart is null)
             {
                 return BadRequest(new {errorText = "Корзина пуста"});
             }
@@ -59,7 +88,7 @@ public class OrdersController : BaseController
                 totalPrice += cartItem.PricePerOne * cartItem.Amount;
             }
 
-            var orderModel = new Order(userId!.Value, order.CartId, order.PharmacyId, totalPrice);
+            var orderModel = new Order(userId.Value, cart.CartId, pharmacyId, totalPrice);
             var dbOrderEntity =_context.Orders.Add(orderModel);
 
             cart.IsOrdered = true;
@@ -78,7 +107,34 @@ public class OrdersController : BaseController
             _logger.LogError(ex.ToString());
 
             return StatusCode(StatusCodes.Status500InternalServerError, 
-                new {errorText = "Во время выполнения запроса произошла ошибка"});
+                new {errorText = $"Во время выполнения запроса произошла ошибка {ex.Message}"});
+        }
+    }
+
+    [HttpPut]
+    public IActionResult UpdateOrderState([FromBody] PutOrder putOrder)
+    {
+        try
+        {
+            var order = _context.Orders.FirstOrDefault(o => o.OrderId == putOrder.OrderId);
+
+            if (order == null)
+            {
+                return NotFound(new { errorText = "Заказ не найден" });
+            }
+
+            order.OrderState = putOrder.OrderState;
+            _context.Orders.Update(order);
+            _context.SaveChanges();
+
+            return Ok(new { message = "Статус заказа успешно обновлен" });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                new { errorText = "Во время выполнения запроса произошла ошибка" });
         }
     }
 }

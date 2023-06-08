@@ -3,7 +3,7 @@ import { IDrug } from 'api/types/product';
 import apiPaths from 'constants/api_paths';
 
 export const getProductsList = async () =>
-  baseApiClient.get<IDrug[]>(apiPaths.products);
+  baseApiClient.get<IDrug[]>(apiPaths.drugs);
 
-export const updateProduct = async (product: IDrug) =>
-  baseApiClient.put<boolean>(apiPaths.products, product);
+export const updateProduct = async (drug: IDrug) =>
+  baseApiClient.patch<boolean>(apiPaths.drugs, drug);

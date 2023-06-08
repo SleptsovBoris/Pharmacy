@@ -3,7 +3,7 @@ import 'App.scss';
 import NavBar from 'components/NavBar';
 import Products from 'components/Products/Products';
 import { Route, Routes } from 'react-router-dom';
-import OrdersList from 'components/Orders/OrdersList';
+import OrdersList from 'components/Orders';
 
 const App: React.FC = () => {
   return (
@@ -31,12 +31,20 @@ const App: React.FC = () => {
             path="/"
             element={
               <div className="products__area" id="products__area">
-                <div className="title">Наши лекарства</div>
-                <Products handleOpenCart={() => null} />
+                <div className="title">Лекарства</div>
+                <Products />
               </div>
             }
           />
-          <Route path="/orders" element={<OrdersList />} />
+          <Route
+            path="/orders"
+            element={
+              <div className="products__area" id="products__area">
+                <div className="title">Заказы</div>
+                <OrdersList />
+              </div>
+            }
+          />
         </Routes>
       </div>
     </>

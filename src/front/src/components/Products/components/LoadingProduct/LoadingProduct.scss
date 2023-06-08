@@ -1,10 +1,11 @@
 @import 'constants/styles.scss';
 
 .loading__product {
-  margin: 0 32px 50px 32px;
-  width: calc(100% / 4 - 96px);
+  margin: 0 0 50px 20px;
+  min-width: 200px;
+  width: calc(100% / 3 - 70px);
   padding: 15px;
-  background-color: $interactive-element-bg-color;
+  background-color: $button-background-color;
   border-radius: 10px;
   box-sizing: content-box;
   text-align: center;

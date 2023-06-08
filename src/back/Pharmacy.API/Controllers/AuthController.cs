@@ -93,7 +93,7 @@ public class AuthController : BaseController
             audience: AuthOptions.AUDIENCE,
             notBefore: now,
             claims: claims.Claims,
-            expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+            expires: now.Add(TimeSpan.FromDays(AuthOptions.LIFETIME)),
             signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
         );
 
@@ -133,7 +133,7 @@ public class AuthController : BaseController
             audience: AuthOptions.AUDIENCE,
             notBefore: now,
             claims: claims.Claims,
-            expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+            expires: now.Add(TimeSpan.FromDays(AuthOptions.LIFETIME)),
             signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
         );
 

@@ -1,15 +1,17 @@
-import { useState } from 'react';
 import './Payment.scss';
-import { IOrder, addOrder } from 'redux/ducks/orders_list';
+import { addOrder } from 'redux/ducks/orders_list';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/rootReducer';
 import { IPharmacy } from 'api/types/pharmacy';
 import { clearCart } from 'redux/ducks/cart_list';
 import { useNavigate } from 'react-router-dom';
 import { resetOrderPharmacy } from 'redux/ducks/order_pharmacy';
+import { IOrder } from 'api/types/order';
 
 const Payment: React.FC = () => {
   const cartState = useSelector((state: RootState) => state.cartList);
+  const accountState = useSelector((state: RootState) => state.account);
+  const token = accountState.account?.token || '';
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const orderPharmacyState = useSelector(
@@ -17,83 +19,37 @@ const Payment: React.FC = () => {
   );
 
   const totalPrice = cartState.items.reduce(
-    (result, cartItem) => result + cartItem.price * cartItem.count,
+    (result, cartItem) => result + cartItem.pricePerOne * cartItem.amount,
     0
   );
 
   const handleAddOrder = () => {
     const order: IOrder = {
-      products: cartState.items,
+      cart: { cartId: 1, cartItems: cartState.items },
       totalPrice: totalPrice,
-      date: new Date(),
+      creationDate: new Date(),
       pharmacy: orderPharmacyState.pharmacy as IPharmacy,
+      pharmacyId: orderPharmacyState.pharmacy?.aptekaId || 1,
+      orderState: 0,
     };
-    dispatch(addOrder(order));
+    console.log(`OrderToken is ${token}`);
+    dispatch(addOrder(order, token));
     dispatch(resetOrderPharmacy());
     dispatch(clearCart());
     navigate('/catalog');
-  };
-
-  const [cardNumber, setCardNumber] = useState('');
-  const [cardExpiration, setCardExpiration] = useState('');
-  const [cardOwner, setCardOwner] = useState('');
-
-  const handleCardNumberChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setCardNumber(event.target.value);
-  };
-
-  const handleCardExpirationChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setCardExpiration(event.target.value);
-  };
-
-  const handleCardOwnerChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setCardOwner(event.target.value);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    // Ваша логика отправки данных здесь
-    // Например, вызов API для выполнения платежа
-
-    // Сброс полей после отправки
-    setCardNumber('');
-    setCardExpiration('');
-    setCardOwner('');
   };
 
   return (
     <>
       <div className="payment__area">
         <div className="payment__title">Оплата</div>
-        <form className="payment__form" onSubmit={handleSubmit}>
+        <form className="payment__form">
           <label>Номер карты:</label>
-          <input
-            type="text"
-            value={cardNumber}
-            onChange={handleCardNumberChange}
-            className="payment__input"
-          />
+          <input type="text" className="payment__input" />
           <label>Срок действия:</label>
-          <input
-            type="text"
-            value={cardExpiration}
-            onChange={handleCardExpirationChange}
-            className="payment__input"
-          />
+          <input type="text" className="payment__input" />
           <label>Имя владельца:</label>
-          <input
-            type="text"
-            value={cardOwner}
-            onChange={handleCardOwnerChange}
-            className="payment__input"
-          />
+          <input type="text" className="payment__input" />
           <button
             type="submit"
             className="payment__button"

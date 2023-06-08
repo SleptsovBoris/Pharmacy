@@ -6,6 +6,7 @@ import { login } from 'api/endpoints/account';
 import { ILoginData } from 'api/types/account';
 import { IAccount, setUser } from 'redux/ducks/account';
 import { useDispatch } from 'react-redux';
+import { fetchCartItems } from 'redux/ducks/cart_list';
 
 const Authorization: React.FC = () => {
   const [form] = Form.useForm();
@@ -30,6 +31,8 @@ const Authorization: React.FC = () => {
           phone: response.data.data.phone,
         } as IAccount)
       );
+
+      dispatch(fetchCartItems(false, response.data!.accessToken));
     });
 
     navigate('/');

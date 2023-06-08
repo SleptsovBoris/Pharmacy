@@ -1,10 +1,9 @@
 import './Product.scss';
 import { Divider, Tooltip } from 'antd';
-import not_favorite from 'assets/not_favorite.svg';
 import { IDrug } from 'api/types/drug';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/rootReducer';
-import { addProduct } from 'redux/ducks/cart_list';
+import { addDrug } from 'redux/ducks/cart_list';
 import { useNavigate } from 'react-router-dom';
 
 interface IProps {
@@ -13,6 +12,8 @@ interface IProps {
 
 const Product: React.FC<IProps> = (props: IProps) => {
   const cartState = useSelector((state: RootState) => state.cartList);
+  const accountState = useSelector((state: RootState) => state.account);
+  const token = accountState.account?.token || '';
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -30,9 +31,7 @@ const Product: React.FC<IProps> = (props: IProps) => {
         </div>
         <div className="product__row">
           <div className="product__price">{props.item.price} ₽</div>
-          <div className="fav__img__wrapper">
-            <img className="fav__img" src={not_favorite} alt="" />
-          </div>
+          <div className="count__wrapper">{props.item.count}</div>
         </div>
 
         <Divider style={{ margin: '10px 0' }} />
@@ -40,20 +39,27 @@ const Product: React.FC<IProps> = (props: IProps) => {
         <div className="product__description">{props.item.description}</div>
         <Divider style={{ margin: '10px 0' }} />
         <div className="product__actions__button__wrapper">
-          {cartState.items.find(
-            cartItem => cartItem.drugId === props.item.drugId
-          ) ? (
-            <Tooltip title="Товар уже в корзине">
-              <button className="in_cart_button">В корзине</button>
-            </Tooltip>
-          ) : (
-            <button
-              className="add_to_cart_button"
-              onClick={() => dispatch(addProduct(props.item))}
-            >
-              В корзину
-            </button>
-          )}
+          {
+            cartState.items &&
+            props.item &&
+            cartState.items.some(
+              cartItem => cartItem.drugId === props.item.drugId
+            ) ? (
+              /* eslint-disable */
+              <Tooltip title="Товар уже в корзине">
+                <button className="in_cart_button">В корзине</button>
+              </Tooltip>
+            ) : (
+              /* eslint-enable */
+              /* eslint-disable */
+              <button
+                className="add_to_cart_button"
+                onClick={() => dispatch(addDrug(props.item, token))}
+              >
+                В корзину
+              </button>
+            ) /* eslint-enable */
+          }
           <button className="about__button" onClick={handleNavigate}>
             Подробнее
           </button>

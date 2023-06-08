@@ -1,17 +1,24 @@
-import { IDrug } from 'api/types/drug';
 import * as actionTypes from './action_types';
 import { ActionsType } from './types';
-
-export type CartItem = IDrug & {
-  count: number;
-};
+import { CartItem } from 'api/types/cart';
+import {
+  addToCartAPI,
+  removeProductAPI,
+  setProductCountAPI,
+} from 'api/endpoints/cart';
 
 export interface ICartListState {
   items: CartItem[];
+  isLoading: boolean;
+  isLoadingMore: boolean;
+  error?: string;
 }
 
 const defaultState: ICartListState = {
   items: [],
+  isLoading: true,
+  isLoadingMore: false,
+  error: undefined,
 };
 
 const reducer = (
@@ -19,14 +26,63 @@ const reducer = (
   action: ActionsType
 ): ICartListState => {
   switch (action.type) {
+    case actionTypes.SET_CART_ITEMS_FETCHING: {
+      if (action.payload.isFetchingMore) {
+        return {
+          items: state.items,
+          isLoading: true,
+          isLoadingMore: true,
+        } as ICartListState;
+      }
+
+      return {
+        items: [],
+        isLoading: true,
+        isLoadingMore: false,
+      } as ICartListState;
+    }
+
+    case actionTypes.SET_CART_ITEMS: {
+      return {
+        items: action.payload,
+        isLoading: false,
+        isLoadingMore: false,
+      } as ICartListState;
+    }
+
+    case actionTypes.ADD_CART_ITEMS: {
+      return {
+        items: [...state.items, ...action.payload],
+        isLoading: false,
+        isLoadingMore: false,
+      } as ICartListState;
+    }
+
     case actionTypes.ADD_PRODUCT: {
       const productInCartList = state.items.find(
-        cartItem => cartItem.drugId == action.payload.drugId
+        cartItem => cartItem.drugId == action.payload.drug.drugId
       );
       if (!productInCartList) {
+        addToCartAPI(
+          {
+            drug: action.payload.drug,
+            drugId: action.payload.drug.drugId,
+            amount: 1,
+            pricePerOne: action.payload.drug.price,
+          },
+          action.payload.token
+        );
         return {
           ...state,
-          items: [...state.items, { ...action.payload, count: 1 }],
+          items: [
+            ...state.items,
+            {
+              drug: action.payload.drug,
+              drugId: action.payload.drug.drugId,
+              amount: 1,
+              ricePerOne: action.payload.drug.price,
+            },
+          ],
         } as ICartListState;
       }
       return state;
@@ -34,10 +90,16 @@ const reducer = (
 
     case actionTypes.INCREMENT_PRODUCT_COUNT: {
       const productInCartList = state.items.find(
-        cartItem => cartItem.drugId == action.payload
+        cartItem => cartItem.drugId == action.payload.drugId
       );
-      if (productInCartList && productInCartList.count < 100) {
-        productInCartList!.count++;
+      if (productInCartList && productInCartList.amount < 100) {
+        productInCartList.amount++;
+        console.log(productInCartList.amount);
+        setProductCountAPI(
+          action.payload.drugId,
+          productInCartList.amount,
+          action.payload.token
+        );
         return {
           items: state.items,
         } as ICartListState;
@@ -47,10 +109,16 @@ const reducer = (
 
     case actionTypes.DECREMENT_PRODUCT_COUNT: {
       const productInCartList = state.items.find(
-        cartItem => cartItem.drugId == action.payload
+        cartItem => cartItem.drugId == action.payload.drugId
       );
-      if (productInCartList && productInCartList.count > 0) {
-        productInCartList!.count--;
+      if (productInCartList && productInCartList.amount > 0) {
+        productInCartList.amount--;
+        console.log(productInCartList.amount);
+        setProductCountAPI(
+          action.payload.drugId,
+          productInCartList.amount,
+          action.payload.token
+        );
         return {
           items: state.items,
         } as ICartListState;
@@ -60,7 +128,7 @@ const reducer = (
 
     case actionTypes.SET_PRODUCT_COUNT: {
       const productInCartList = state.items.find(
-        cartItem => cartItem.drugId == action.payload.productId
+        cartItem => cartItem.drugId == action.payload.drugId
       );
       if (
         productInCartList &&
@@ -68,7 +136,13 @@ const reducer = (
         action.payload.newCount < 100 &&
         action.payload.newCount > 0
       ) {
-        productInCartList!.count = action.payload.newCount;
+        productInCartList.amount = action.payload.newCount;
+        console.log(action.payload.newCount);
+        setProductCountAPI(
+          action.payload.drugId,
+          action.payload.newCount,
+          action.payload.token
+        );
         return {
           items: state.items,
         } as ICartListState;
@@ -78,12 +152,13 @@ const reducer = (
 
     case actionTypes.REMOVE_PRODUCT: {
       const productInCartList = state.items.find(
-        cartItem => cartItem.drugId == action.payload
+        cartItem => cartItem.drugId == action.payload.drugId
       );
       if (productInCartList) {
+        removeProductAPI(productInCartList.drug.drugId, action.payload.token);
         return {
           items: state.items.filter(
-            cartItem => cartItem.drugId != action.payload
+            cartItem => cartItem.drug.drugId != action.payload.drugId
           ),
         } as ICartListState;
       }
@@ -93,6 +168,17 @@ const reducer = (
     case actionTypes.CLEAR_CART: {
       return {
         items: [],
+        isLoading: false,
+        isLoadingMore: false,
+      } as ICartListState;
+    }
+
+    case actionTypes.SET_ERROR: {
+      return {
+        items: [],
+        isLoading: false,
+        isLoadingMore: false,
+        error: action.payload,
       } as ICartListState;
     }
 

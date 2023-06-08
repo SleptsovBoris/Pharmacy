@@ -1,27 +1,19 @@
-import { IDrug } from 'api/types/product';
 import * as actionTypes from './action_types';
 import { ActionsType } from './types';
-import { CartItem } from '../cart_list';
-import { IPharmacy } from 'api/types/pharmacy';
-
-export interface IOrder {
-  id?: number;
-  products: CartItem[];
-  totalPrice: number;
-  date: Date;
-  pharmacy: IPharmacy;
-}
-
-export type IOrders = IDrug & {
-  count: number;
-};
+import { IOrder } from 'api/types/order';
 
 export interface IOrdersListState {
   items: IOrder[];
+  isLoading: boolean;
+  isLoadingMore: boolean;
+  error?: string;
 }
 
 const defaultState: IOrdersListState = {
   items: [],
+  isLoading: true,
+  isLoadingMore: false,
+  error: undefined,
 };
 
 const reducer = (
@@ -29,9 +21,50 @@ const reducer = (
   action: ActionsType
 ): IOrdersListState => {
   switch (action.type) {
-    case actionTypes.ADD_ORDER: {
+    case actionTypes.SET_ORDERS_FETCHING: {
+      if (action.payload.isFetchingMore) {
+        return {
+          items: state.items,
+          isLoading: true,
+          isLoadingMore: true,
+        } as IOrdersListState;
+      }
+
       return {
-        items: [{ ...action.payload, count: 1 } as IOrder, ...state.items],
+        items: [],
+        isLoading: true,
+        isLoadingMore: false,
+      } as IOrdersListState;
+    }
+
+    case actionTypes.SET_ORDERS: {
+      return {
+        items: action.payload,
+        isLoading: false,
+        isLoadingMore: false,
+      } as IOrdersListState;
+    }
+
+    case actionTypes.ADD_ORDERS: {
+      return {
+        items: [...state.items, ...action.payload],
+        isLoading: false,
+        isLoadingMore: false,
+      } as IOrdersListState;
+    }
+
+    case actionTypes.SET_ERROR: {
+      return {
+        items: [],
+        isLoading: false,
+        isLoadingMore: false,
+        error: action.payload,
+      } as IOrdersListState;
+    }
+
+    case actionTypes.SET_ORDER_STATE: {
+      return {
+        items: [...state.items],
       } as IOrdersListState;
     }
 

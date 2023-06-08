@@ -10,10 +10,5 @@ export interface IDrug {
   instruction: string;
   price: number;
   recept: string;
-}
-
-export interface IFavorDrug {
-  favorDrugId: number;
-  userId: number;
-  drugId: number;
+  count: number;
 }

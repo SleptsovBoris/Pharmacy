@@ -19,8 +19,4 @@ public class Apteka
     public string District {get; set;}
     public string Metro {get; set;}
     public string WorkTime {get; set;}
-
-    public List<Order> Orders{get; set;}
-    public List<FavorPharmacy> FavorPharmacies{get; set;}
-    public List<PharmacyDrug> PharmacyDrugs{get; set;}
  }

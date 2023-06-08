@@ -21,20 +21,6 @@
     width: 20%;
   }
 
-  .icon__wrapper {
-    height: 4vh;
-
-    .favorite__icon {
-      width: 90%;
-      height: 90%;
-      object-fit: scale-down;
-    }
-    .favorite__icon:hover {
-      cursor: pointer;
-      scale: (1.05);
-    }
-  }
-
   .pharmacy__button {
     border: none;
     width: 15%;

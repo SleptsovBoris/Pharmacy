@@ -66,11 +66,4 @@ public class User
 
     [JsonIgnore]
     public string PasswordHash {get; set;}
-
-    public List<Cart> Carts {get; set;}
-    public List<Payment> Payments {get; set;}
-    public List<Order> Orders {get; set;}
-    public List<FavorPharmacy> FavorPharmacies {get; set;}
-    public List<FavorDrug> FavorDrugs {get; set;}
-
 }

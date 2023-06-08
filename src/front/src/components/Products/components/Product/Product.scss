@@ -40,18 +40,8 @@
     font-weight: 500;
     margin-bottom: 10px;
   }
-  .fav__img__wrapper {
+  .count__wrapper {
     height: 3vh;
-
-    .fav__img {
-      width: 100%;
-      height: 100%;
-      object-fit: scale-down;
-    }
-  }
-  .fav__img__wrapper:hover {
-    cursor: pointer;
-    scale: (1.01);
   }
 }
 

@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { takeLatest, put, call, all } from 'redux-saga/effects';
 import * as actionCreators from './action_creators';
 import { getDrugsList } from 'api/endpoints/products_list';
@@ -11,6 +11,7 @@ type IFetchProductsAction = ReturnType<typeof actionCreators.fetchProducts>;
 function* fetchProducts({ payload }: IFetchProductsAction) {
   yield put(actionCreators.setProductsFetching(true, payload.isLoadingMore));
   try {
+    console.log('я сюда зашел');
     const response = (yield call(() =>
       getDrugsList(payload.filters)
     )) as AxiosResponse<IDrug[]>;

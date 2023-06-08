@@ -1,9 +1,10 @@
 import { all, spawn, call } from 'redux-saga/effects';
 import { saga as productsList } from './ducks/products_list';
+import { saga as ordersList } from './ducks/orders_list';
 
 // https://redux-saga.js.org/docs/advanced/RootSaga.html
 function* rootSaga() {
-  const sagas = [productsList];
+  const sagas = [productsList, ordersList];
 
   yield all(
     sagas.map(saga =>

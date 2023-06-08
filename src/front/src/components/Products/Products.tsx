@@ -23,10 +23,6 @@ const Products: React.FC = () => {
     dispatch(fetchProducts(false));
   };
 
-  const handleLoadMoreButtonClick = () => {
-    dispatch(fetchProducts({}, true));
-  };
-
   if (productsListState.error) {
     return (
       <>
@@ -39,7 +35,6 @@ const Products: React.FC = () => {
   if (productsListState.isLoading && !productsListState.isLoadingMore) {
     return (
       <div className="loading-wrapper">
-        <LoadingProduct />
         <LoadingProduct />
         <LoadingProduct />
         <LoadingProduct />

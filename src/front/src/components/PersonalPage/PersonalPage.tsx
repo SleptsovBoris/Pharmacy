@@ -1,30 +1,20 @@
 import OrdersList from 'components/PersonalPage/components/OrdersList/OrdersList';
 import './PersonalPage.scss';
-import { Divider, Empty, Form, List } from 'antd';
+import { Divider, Form } from 'antd';
 import pen from 'assets/pen.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/rootReducer';
 import { useNavigate } from 'react-router-dom';
-import { IAccount, resetUser, setUser, updateUser } from 'redux/ducks/account';
-import locale from 'constants/locale';
-import FavorPharmacy from 'components/PharmaciesPage/PharmaciesList/components/FavorPharmacy/FavorPharmacy';
+import { IAccount, resetUser, updateUser } from 'redux/ducks/account';
 import { useState } from 'react';
 import { IPutAccountData } from 'api/types/account';
 import { update } from 'api/endpoints/account';
-import FavoriteProduct from 'components/Products/components/FavoriteProduct/FavoriteProduct';
 import { clearCart } from 'redux/ducks/cart_list';
 import { clearOrders } from 'redux/ducks/orders_list';
 
 const PersonalPage: React.FC = () => {
   const accountState = useSelector((state: RootState) => state.account);
   const [form] = Form.useForm();
-
-  const favorDrugsState = useSelector(
-    (state: RootState) => state.favorProductsList
-  );
-  const favorPharmaciesState = useSelector(
-    (state: RootState) => state.favorPharmaciesList
-  );
 
   const [updateEnabled, setUpdateEnabled] = useState(false);
 
@@ -128,40 +118,6 @@ const PersonalPage: React.FC = () => {
               </div>
             )}
           </div>
-
-          <div className="personal__form">
-            <div className="personal__subtitle">Избранные аптеки</div>
-            <Divider style={{ border: '1px solid #373c42' }} />
-            <List
-              className="pharmacies__list"
-              locale={{
-                emptyText: <Empty description={locale.noDataMessage} />,
-              }}
-              itemLayout="horizontal"
-              dataSource={favorPharmaciesState.items}
-              renderItem={item => <FavorPharmacy />}
-            />
-            {/* <div className="pharmacies__list">
-              <FavorPharmacy />
-            </div> */}
-          </div>
-        </div>
-
-        <div className="personal__form2">
-          <div className="personal__subtitle">Избранные лекарства</div>
-          <Divider style={{ border: '1px solid #373c42' }} />
-          <List
-            className="products__list"
-            locale={{
-              emptyText: <Empty description={locale.noDataMessage} />,
-            }}
-            itemLayout="horizontal"
-            dataSource={favorDrugsState.items}
-            renderItem={item => <></>}
-          />
-          {/* <div className="products__list">
-            <FavoriteProduct />
-          </div> */}
         </div>
 
         <div className="personal__form2">

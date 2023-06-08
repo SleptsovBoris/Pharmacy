@@ -10,4 +10,5 @@ export interface IDrug {
   instruction: string;
   price: number;
   recept: string;
+  count: number;
 }

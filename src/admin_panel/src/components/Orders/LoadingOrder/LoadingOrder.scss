@@ -1,0 +1,14 @@
+@import 'constants/styles.scss';
+
+.loading__order {
+  display: flex;
+  flex-direction: row;
+  margin: 20px 0 0 20px;
+  height: 5vh;
+  padding: 15px;
+  background-color: $form-background-color;
+  border-radius: 10px;
+  box-sizing: content-box;
+  text-align: center;
+  justify-content: space-between;
+}

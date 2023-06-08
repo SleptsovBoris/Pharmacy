@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import LoadingProduct from './components/LoadingProduct';
 import Product from './components/Product';
 import './Products.scss';
@@ -8,11 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/rootReducer';
 import { fetchProducts } from 'redux/ducks/products_list';
 
-interface IProps {
-  handleOpenCart: () => void;
-}
-
-const Products: React.FC<IProps> = (props: IProps) => {
+const Products: React.FC = () => {
   const productsListState = useSelector(
     (state: RootState) => state.productsList
   );
@@ -25,10 +21,6 @@ const Products: React.FC<IProps> = (props: IProps) => {
 
   const handleResetButtonClick = () => {
     dispatch(fetchProducts(false));
-  };
-
-  const handleLoadMoreButtonClick = () => {
-    dispatch(fetchProducts(true));
   };
 
   if (productsListState.error) {

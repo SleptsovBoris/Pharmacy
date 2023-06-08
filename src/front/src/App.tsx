@@ -31,10 +31,6 @@ import { Form } from 'antd';
 const aboutText =
   'Мы сотрудничаем напрямую с производителями, поэтому заказанные на сайте Аптека Бориса товары поступают в аптеку напрямую с нашего склада без посредников или перекупщиков.';
 
-export type CartItem = IDrug & {
-  count: number;
-};
-
 const App: React.FC = () => {
   const accountState = useSelector((state: RootState) => state.account);
   const [headerText, setHeaderText] = useState('Авторизация');

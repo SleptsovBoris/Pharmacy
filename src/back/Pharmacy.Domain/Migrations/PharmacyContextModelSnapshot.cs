@@ -67,8 +67,6 @@ namespace Pharmacy.Domain.Migrations
 
                     b.HasKey("CartId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Carts");
                 });
 
@@ -86,10 +84,7 @@ namespace Pharmacy.Domain.Migrations
                     b.Property<int?>("CartId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Drug")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DrugId")
+                    b.Property<int>("DrugId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("PricePerOne")
@@ -115,6 +110,9 @@ namespace Pharmacy.Domain.Migrations
                     b.Property<string>("Amount")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -149,12 +147,6 @@ namespace Pharmacy.Domain.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DrugId");
-
-                    b.HasIndex("FormId");
-
-                    b.HasIndex("KindId");
-
-                    b.HasIndex("ManufacturerId");
 
                     b.ToTable("Drugs");
                 });
@@ -193,52 +185,6 @@ namespace Pharmacy.Domain.Migrations
                     b.ToTable("DrugKinds");
                 });
 
-            modelBuilder.Entity("Pharmacy.Domain.models.FavorDrug", b =>
-                {
-                    b.Property<int>("FavorDrugId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FavorDrugId"));
-
-                    b.Property<int>("DrugId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FavorDrugId");
-
-                    b.HasIndex("DrugId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FavorDrugs");
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.models.FavorPharmacy", b =>
-                {
-                    b.Property<int>("FavorPharmacyId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FavorPharmacyId"));
-
-                    b.Property<int>("AptekaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FavorPharmacyId");
-
-                    b.HasIndex("AptekaId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FavorPharmacies");
-                });
-
             modelBuilder.Entity("Pharmacy.Domain.models.Manufacturer", b =>
                 {
                     b.Property<int>("ManufacturerId")
@@ -264,9 +210,6 @@ namespace Pharmacy.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
-                    b.Property<int?>("AptekaId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CartId")
                         .HasColumnType("int");
 
@@ -290,12 +233,9 @@ namespace Pharmacy.Domain.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("AptekaId");
+                    b.HasIndex("CartId");
 
-                    b.HasIndex("CartId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("PharmacyId");
 
                     b.ToTable("Orders");
                 });
@@ -322,10 +262,7 @@ namespace Pharmacy.Domain.Migrations
 
                     b.HasKey("PaymentId");
 
-                    b.HasIndex("OrderId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Payments");
                 });
@@ -338,6 +275,9 @@ namespace Pharmacy.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PharmacyDrugId"));
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
                     b.Property<int>("AptekaId")
                         .HasColumnType("int");
 
@@ -345,10 +285,6 @@ namespace Pharmacy.Domain.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("PharmacyDrugId");
-
-                    b.HasIndex("AptekaId");
-
-                    b.HasIndex("DrugId");
 
                     b.ToTable("PharmacyDrugs");
                 });
@@ -384,184 +320,54 @@ namespace Pharmacy.Domain.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Pharmacy.Domain.models.Cart", b =>
-                {
-                    b.HasOne("Pharmacy.Domain.models.User", "User")
-                        .WithMany("Carts")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Pharmacy.Domain.models.CartItem", b =>
                 {
                     b.HasOne("Pharmacy.Domain.models.Cart", null)
                         .WithMany("CartItems")
                         .HasForeignKey("CartId");
 
-                    b.HasOne("Pharmacy.Domain.models.Drug", null)
-                        .WithMany("CartItems")
-                        .HasForeignKey("DrugId");
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.models.Drug", b =>
-                {
-                    b.HasOne("Pharmacy.Domain.models.DrugForm", "Form")
-                        .WithMany("Drugs")
-                        .HasForeignKey("FormId");
-
-                    b.HasOne("Pharmacy.Domain.models.DrugKind", "Kind")
-                        .WithMany("Drugs")
-                        .HasForeignKey("KindId");
-
-                    b.HasOne("Pharmacy.Domain.models.Manufacturer", "Manufacturer")
-                        .WithMany("Drugs")
-                        .HasForeignKey("ManufacturerId");
-
-                    b.Navigation("Form");
-
-                    b.Navigation("Kind");
-
-                    b.Navigation("Manufacturer");
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.models.FavorDrug", b =>
-                {
-                    b.HasOne("Pharmacy.Domain.models.Drug", null)
-                        .WithMany("FavorDrugs")
+                    b.HasOne("Pharmacy.Domain.models.Drug", "Drug")
+                        .WithMany()
                         .HasForeignKey("DrugId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Pharmacy.Domain.models.User", null)
-                        .WithMany("FavorDrugs")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.models.FavorPharmacy", b =>
-                {
-                    b.HasOne("Pharmacy.Domain.models.Apteka", null)
-                        .WithMany("FavorPharmacies")
-                        .HasForeignKey("AptekaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Pharmacy.Domain.models.User", null)
-                        .WithMany("FavorPharmacies")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Drug");
                 });
 
             modelBuilder.Entity("Pharmacy.Domain.models.Order", b =>
                 {
-                    b.HasOne("Pharmacy.Domain.models.Apteka", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("AptekaId");
-
                     b.HasOne("Pharmacy.Domain.models.Cart", "Cart")
-                        .WithOne("Order")
-                        .HasForeignKey("Pharmacy.Domain.models.Order", "CartId")
+                        .WithMany()
+                        .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Pharmacy.Domain.models.User", "User")
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId");
+                    b.HasOne("Pharmacy.Domain.models.Apteka", "Pharmacy")
+                        .WithMany()
+                        .HasForeignKey("PharmacyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Cart");
 
-                    b.Navigation("User");
+                    b.Navigation("Pharmacy");
                 });
 
             modelBuilder.Entity("Pharmacy.Domain.models.Payment", b =>
                 {
-                    b.HasOne("Pharmacy.Domain.models.Order", null)
-                        .WithOne("Payment")
-                        .HasForeignKey("Pharmacy.Domain.models.Payment", "OrderId")
+                    b.HasOne("Pharmacy.Domain.models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Pharmacy.Domain.models.User", "User")
-                        .WithMany("Payments")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.models.PharmacyDrug", b =>
-                {
-                    b.HasOne("Pharmacy.Domain.models.Apteka", null)
-                        .WithMany("PharmacyDrugs")
-                        .HasForeignKey("AptekaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Pharmacy.Domain.models.Drug", null)
-                        .WithMany("PharmacyDrugs")
-                        .HasForeignKey("DrugId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.models.Apteka", b =>
-                {
-                    b.Navigation("FavorPharmacies");
-
-                    b.Navigation("Orders");
-
-                    b.Navigation("PharmacyDrugs");
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Pharmacy.Domain.models.Cart", b =>
                 {
                     b.Navigation("CartItems");
-
-                    b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.models.Drug", b =>
-                {
-                    b.Navigation("CartItems");
-
-                    b.Navigation("FavorDrugs");
-
-                    b.Navigation("PharmacyDrugs");
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.models.DrugForm", b =>
-                {
-                    b.Navigation("Drugs");
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.models.DrugKind", b =>
-                {
-                    b.Navigation("Drugs");
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.models.Manufacturer", b =>
-                {
-                    b.Navigation("Drugs");
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.models.Order", b =>
-                {
-                    b.Navigation("Payment");
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.models.User", b =>
-                {
-                    b.Navigation("Carts");
-
-                    b.Navigation("FavorDrugs");
-
-                    b.Navigation("FavorPharmacies");
-
-                    b.Navigation("Orders");
-
-                    b.Navigation("Payments");
                 });
 #pragma warning restore 612, 618
         }

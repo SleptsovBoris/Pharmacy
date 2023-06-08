@@ -1,10 +1,19 @@
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { Badge, Button, Space } from 'antd';
 import { RootState } from 'redux/rootReducer';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchCartItems } from 'redux/ducks/cart_list';
 
 const Cart: React.FC = () => {
   const cartState = useSelector((state: RootState) => state.cartList);
+  const accountState = useSelector((state: RootState) => state.account);
+  const token = accountState.account?.token || '';
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCartItems(false, token));
+  }, [dispatch, token]);
 
   return (
     <>

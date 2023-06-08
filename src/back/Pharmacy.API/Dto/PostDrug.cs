@@ -4,7 +4,7 @@ namespace Pharmacy.API.Dto;
 
 public class PostDrug
 {
-    public PostDrug(string drugname, string img, string description, int kind, int form, int manufacturer, string amount, string instruction, int price, string recept)
+    public PostDrug(string drugname, string img, string description, int kind, int form, int manufacturer, string amount, string instruction, int price, string recept, int count)
     {
         DrugName = drugname;
         Img = img;
@@ -16,6 +16,7 @@ public class PostDrug
         Instruction = instruction;
         Price = price;
         Recept = recept;
+        Count = count;
     }
 
     public string DrugName {get; set;}
@@ -28,6 +29,7 @@ public class PostDrug
     public string Instruction {get; set;}
     public int Price {get; set;}
     public string Recept {get; set;}
+    public int Count {get; set;}
 
     public Drug ToDomainDrug() => new Drug(
         this.DrugName,
@@ -39,6 +41,7 @@ public class PostDrug
         this.Amount,
         this.Instruction,
         this.Price,
-        this.Recept
+        this.Recept,
+        this.Count
     );
 }

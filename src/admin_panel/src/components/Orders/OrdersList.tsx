@@ -1,15 +1,49 @@
-import { Collapse, Empty } from 'antd';
+import { Button, Collapse, Empty } from 'antd';
 import locale from 'constants/locale';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/rootReducer';
-import CartList from './CartList/CartList';
+import CartList from './CartList';
+import './OrdersList.scss';
+import { useEffect } from 'react';
+import { fetchOrders } from 'redux/ducks/orders_list';
+import LoadingOrder from './LoadingOrder';
+import Order from './Order/Order';
 
 const { Panel } = Collapse;
 
 const OrdersList: React.FC = () => {
-  const ordersState = useSelector((state: RootState) => state.ordersList);
+  const dispatch = useDispatch();
 
-  if (ordersState.items.length === 0) {
+  const ordersListState = useSelector((state: RootState) => state.ordersList);
+
+  useEffect(() => {
+    dispatch(fetchOrders(false));
+  }, []);
+
+  const handleResetButtonClick = () => {
+    dispatch(fetchOrders(false));
+  };
+
+  if (ordersListState.error) {
+    return (
+      <>
+        <div>{ordersListState.error}</div>
+        <Button onClick={handleResetButtonClick}>Повторить запрос</Button>
+      </>
+    );
+  }
+
+  if (ordersListState.isLoading && !ordersListState.isLoadingMore) {
+    return (
+      <div className="loading__wrapper">
+        <LoadingOrder />
+        <LoadingOrder />
+        <LoadingOrder />
+      </div>
+    );
+  }
+
+  if (ordersListState.items.length === 0) {
     return (
       <div style={{ padding: '16px', color: 'rgba(0, 0, 0, 0.25)' }}>
         <Empty description={locale.noDataMessage} />
@@ -19,36 +53,16 @@ const OrdersList: React.FC = () => {
 
   return (
     <>
-      {ordersState.items.map(order => (
+      {ordersListState.items.map(order => (
         //eslint-disable-next-line
-        <div key={order.id!} className="order-collapse-wrapper">
+        <div key={order.orderId!} className="order-collapse-wrapper">
           <Collapse>
             <Panel
               //eslint-disable-next-line
-              key={order.id!}
-              header={
-                <div className="order">
-                  <span className="order__date">
-                    {`Дата заказа: ${new Date(order.date).toLocaleDateString(
-                      'ru-Ru'
-                    )} ${new Date(order.date).toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })} `}
-                  </span>
-                  <span className="order__price">
-                    Сумма заказа: {order.totalPrice} ₽
-                  </span>
-                  <span className="order__address">
-                    Адрес аптеки: {order.pharmacy.address}
-                  </span>
-                  <span className="order__state">
-                    Статус заказа: <span className="state">Заказано</span>
-                  </span>
-                </div>
-              }
+              key={order.orderId!}
+              header={<Order item={order} />}
             >
-              <CartList cartItems={order.products} />
+              <CartList cartItems={order.cart.cartItems} />
             </Panel>
           </Collapse>
         </div>

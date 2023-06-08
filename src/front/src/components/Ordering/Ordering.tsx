@@ -13,7 +13,7 @@ const Ordering: React.FC = () => {
   );
 
   const totalPrice = cartState.items.reduce(
-    (result, cartItem) => result + cartItem.price * cartItem.count,
+    (result, cartItem) => result + cartItem.pricePerOne * cartItem.amount,
     0
   );
 

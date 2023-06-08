@@ -1,23 +1,8 @@
 import './Product.scss';
-import {
-  Button,
-  Space,
-  Divider,
-  Image,
-  Modal,
-  Input,
-  Switch,
-  Form,
-  Upload,
-} from 'antd';
-import { ChangeEvent, useRef, useState } from 'react';
+import { Button, Space, Divider, Image, Modal, Input, Form } from 'antd';
+import { useState } from 'react';
 import { IDrug } from 'api/types/product';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/rootReducer';
-import { addProduct } from 'redux/ducks/cart_list';
 import { updateProduct } from 'api/endpoints/products';
-import { UploadOutlined } from '@ant-design/icons';
-// import { uploadFile } from 'api/endpoints/upload_files';
 
 interface IProps {
   item: IDrug;
@@ -26,13 +11,6 @@ interface IProps {
 const Product: React.FC<IProps> = (props: IProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const cartState = useSelector((state: RootState) => state.cartList);
-  const dispatch = useDispatch();
-  const inputFile = useRef<HTMLInputElement | null>(null);
-
-  const onUploadFileButtonClick = () => {
-    inputFile?.current?.click();
-  };
 
   const handleEditButtonClick = () => {
     setIsModalOpen(true);
@@ -41,17 +19,19 @@ const Product: React.FC<IProps> = (props: IProps) => {
   const handleSaveButtonClick = () => {
     const updatedProduct = {
       drugId: props.item.drugId,
-      img: props.item.img,
       drugName: form.getFieldValue('title') ?? props.item.drugName,
       price: form.getFieldValue('price') ?? props.item.price,
       description: form.getFieldValue('description') ?? props.item.description,
+      count: form.getFieldValue('count') ?? props.item.count,
+      amount: form.getFieldValue('amount') ?? props.item.amount,
+      instruction: form.getFieldValue('instruction') ?? props.item.instruction,
     } as IDrug;
 
     updateProduct(updatedProduct).then(success => {
       if (success) {
         setIsModalOpen(false);
       } else {
-        console.log('Еще раз так сделаешь, я тебе руки переломаю');
+        console.log('Ошибка при изменении');
       }
     });
 
@@ -71,9 +51,9 @@ const Product: React.FC<IProps> = (props: IProps) => {
         <div className="product__title">{props.item.drugName}</div>
         <Divider style={{ margin: '10px 0' }} />
         <div className="product__price">{props.item.price} ₽</div>
-        <div className="product__description">
-          Описание: {props.item.description}
-        </div>
+        <Divider style={{ margin: '10px 0' }} />
+        <div className="product__description">Оставшееся количество:</div>
+        <div className="product__price">{props.item.count}</div>
         <div className="product__actions__button__wrapper">
           <Space.Compact block size="large">
             <Button block type="text" onClick={handleEditButtonClick}>
@@ -100,33 +80,6 @@ const Product: React.FC<IProps> = (props: IProps) => {
           <Form.Item>
             <Image width={'100%'} src={props.item.img} />
           </Form.Item>
-          <Form.Item>
-            <div>
-              <input
-                type="file"
-                accept="image"
-                id="file"
-                // ref={inputFile}
-                style={{ display: 'none' }}
-                max={1}
-                // onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                //   if (e.target.files === null) return;
-
-                //   const file = e.target.files![0];
-
-                //   const filePath = URL.createObjectURL(file);
-
-                //   uploadFile(file.name, filePath);
-                // }}
-              />
-              <Button
-                icon={<UploadOutlined />}
-                onClick={onUploadFileButtonClick}
-              >
-                Изменить фото
-              </Button>
-            </div>
-          </Form.Item>
           <Form.Item name={'title'} label="Название">
             <Input defaultValue={props.item.drugName} />
           </Form.Item>
@@ -136,8 +89,14 @@ const Product: React.FC<IProps> = (props: IProps) => {
           <Form.Item name={'description'} label="Описание">
             <Input defaultValue={props.item.description} />
           </Form.Item>
-          <Form.Item label="Доступно к заказу">
-            <Switch defaultChecked />
+          <Form.Item name={'instruction'} label="Инструкция">
+            <Input defaultValue={props.item.instruction} />
+          </Form.Item>
+          <Form.Item name={'amount'} label="Кол-во в упаковке">
+            <Input defaultValue={props.item.amount} />
+          </Form.Item>
+          <Form.Item name={'count'} label="Кол-во лекарства">
+            <Input defaultValue={props.item.count} />
           </Form.Item>
           <Form.Item>
             <Button block type="primary" onClick={handleSaveButtonClick}>

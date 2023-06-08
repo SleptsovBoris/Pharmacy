@@ -1,6 +1,7 @@
 const apiPaths = {
   baseApiUrl: 'http://localhost:5240',
-  products: '/drugs',
+  drugs: '/drugs',
+  orders: '/orders',
 };
 
 export default apiPaths;

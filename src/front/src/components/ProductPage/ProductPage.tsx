@@ -1,13 +1,12 @@
 import { IDrug } from 'api/types/drug';
 import './ProductPage.scss';
-import not_favorite from 'assets/not_favorite.svg';
 import { Divider, Tabs, Tooltip } from 'antd';
 import { useParams } from 'react-router-dom';
 import baseApiClient from 'api/common/base_api_client';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/rootReducer';
-import { addProduct } from 'redux/ducks/cart_list';
+import { addDrug } from 'redux/ducks/cart_list';
 
 const ProductPage: React.FC = () => {
   const [product, setProduct] = useState<IDrug | null>(null);
@@ -16,6 +15,9 @@ const ProductPage: React.FC = () => {
   const [formName, setFormName] = useState<string | null>(null);
 
   const cartState = useSelector((state: RootState) => state.cartList);
+  const accountState = useSelector((state: RootState) => state.account);
+  const token = accountState.account?.token || '';
+
   const dispatch = useDispatch();
 
   const params = useParams();
@@ -46,7 +48,7 @@ const ProductPage: React.FC = () => {
 
   const handleAddToCart = () => {
     if (product !== null) {
-      dispatch(addProduct(product));
+      dispatch(addDrug(product, token));
     }
   };
 
@@ -67,24 +69,28 @@ const ProductPage: React.FC = () => {
             </div>
             <div className="row__wrapper">
               <div className="product__price">от {product?.price} ₽</div>
-              <div className="fav__img__wrapper">
-                <img className="fav__img" src={not_favorite} alt="" />
-              </div>
+              <div className="count__wrapper">{product?.count}</div>
             </div>
-            {cartState.items.find(
-              cartItem => cartItem.drugId === product?.drugId
-            ) ? (
-              <Tooltip title="Товар уже в корзине">
-                <button className="in_cart_button">В корзине</button>
-              </Tooltip>
-            ) : (
-              <button
-                className="add__to__cart__button"
-                onClick={handleAddToCart}
-              >
-                В корзину
-              </button>
-            )}
+            {
+              cartState.items &&
+              cartState.items.find(
+                cartItem => cartItem.drugId === product?.drugId
+              ) ? (
+                /* eslint-disable */
+                <Tooltip title="Товар уже в корзине">
+                  <button className="in_cart_button">В корзине</button>
+                </Tooltip>
+              ) : (
+                /* eslint-enable */
+                /* eslint-disable */
+                <button
+                  className="add__to__cart__button"
+                  onClick={handleAddToCart}
+                >
+                  В корзину
+                </button>
+              ) /* eslint-enable */
+            }
           </div>
 
           <div className="info__column">

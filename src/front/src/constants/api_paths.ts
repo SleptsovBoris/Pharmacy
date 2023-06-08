@@ -7,6 +7,8 @@ const apiPaths = {
   login: '/login',
   signUp: '/signup',
   account: '/account',
+  carts: '/carts',
+  orders: '/orders',
 };
 
 export default apiPaths;

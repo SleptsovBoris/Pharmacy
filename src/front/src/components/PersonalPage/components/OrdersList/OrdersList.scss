@@ -1,6 +1,10 @@
 .order-collapse-wrapper {
   margin: 8px 0;
 }
+.loading-wrapper {
+  display: flex;
+  flex-direction: column;
+}
 .order {
   display: flex;
   justify-content: space-between;

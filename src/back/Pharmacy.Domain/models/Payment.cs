@@ -27,6 +27,6 @@ public class Payment
     public int UserId {get; set;}
     public DateTime PaymentDate {get; set;}
     public decimal PaymentSum {get; set;}
-
-    public User User{get; set;}
+    
+    public Order Order{get; set;}
 }

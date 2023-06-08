@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Pharmacy.API.Dto;
 using Pharmacy.Domain.data;
 using Pharmacy.Domain.models;
@@ -25,92 +26,64 @@ public class CartsController : BaseController
     {
         var userId = GetCurrentUserId();
 
+        var cart = _context.Carts
+            .Include(c => c.CartItems)
+            .ThenInclude(x => x.Drug)
+            .FirstOrDefault((cart) => cart.UserId == userId && !cart.IsOrdered);
+
+        if(cart is null)
+        {
+            return BadRequest(new {errorText = "Не удалось найти активную корзину для текущего пользователя"});
+        }
+
         var response = new
         {
-            data = _context.Carts.FirstOrDefault((cart) => cart.UserId == userId && !cart.IsOrdered),
+            data = cart.CartItems,
         };
 
         return Json(response);
     }
 
-    [HttpPost]
-    [Authorize]
-    public IActionResult Post()
-    {
-        try
-        {
-            var userId = GetCurrentUserId();
-            var cart = _context.Carts.FirstOrDefault((cart) => cart.UserId == userId && !cart.IsOrdered);
-            if (cart is null) 
-            {
-                cart = new Cart(userId!.Value);
-
-                cart = _context.Add(cart).Entity;
-                _context.SaveChanges();
-            }
-
-            var response = new
-            {
-                data = cart,
-            };
-
-            return Json (response);
-        }
-        catch(Exception ex){
-            _logger.LogError(ex.ToString());
-
-            return StatusCode(StatusCodes.Status500InternalServerError, 
-                new {errorText = "Во время выполнения запроса произошла ошибка"});
-        }
-    }
-
-    [HttpPost("[controller]/cart-item")]
+    [HttpPost("/cart-item")]
     [Authorize]
     public IActionResult PostCartItem([FromBody] PostCartItem postCartItem)
     {
         try
         {
             var userId = GetCurrentUserId();
-            var cart = _context.Carts.FirstOrDefault((cart) => cart.UserId == userId && !cart.IsOrdered);
+            var cart = _context.Carts
+                .Include(c => c.CartItems)
+                .FirstOrDefault((cart) => cart.UserId == userId && !cart.IsOrdered);
+
             if (cart is null) 
             {
-                return BadRequest(new {errorText = "Не удалось найти активную корзину для текущего пользователя"});
+                cart = new Cart(userId!.Value);
+
+                cart = _context.Carts.Add(cart).Entity;
+                _context.SaveChanges();
             }
 
-            var isCartItemAlreadyInCurrentCart =
-                cart.CartItems.Any((cartItem) => cartItem.Drug == postCartItem.DrugId);
-            if(isCartItemAlreadyInCurrentCart)
+            var drug = _context.Drugs.Find(postCartItem.DrugId);
+            if(drug is null)
             {
-                var cartItem = cart.CartItems.First((cartItem) => cartItem.Drug == postCartItem.DrugId);
-
-                if (postCartItem.Amount == 0)
-                {
-                    cart.CartItems.Remove(cartItem);
-                }
-                else
-                {
-                    cartItem.Amount = postCartItem.Amount;
-                }
+                return BadRequest(new {errorText = "Не удалось найти соответствующее лекарство"});
             }
-            else
+            var newCartItem = new CartItem(postCartItem.DrugId, postCartItem.Amount, drug.Price);
+            var dbCartItem = _context.CartItems.Add(newCartItem).Entity;
+
+            drug.Count = drug.Count - postCartItem.Amount;
+
+            if(cart.CartItems == null)
             {
-                var drug = _context.Drugs.Find(postCartItem.DrugId);
-                if(drug is null)
-                {
-                    return BadRequest(new {errorText = "Не удалось найти соответствующее лекарство"});
-                }
-                var newCartItem = new CartItem(postCartItem.DrugId, postCartItem.Amount, drug.Price);
-
-                var dbCartItem = _context.CartItems.Add(newCartItem).Entity;
-                cart.CartItems.Add(dbCartItem);
+                cart.CartItems = new List<CartItem>();
             }
-
+            cart.CartItems.Add(dbCartItem);
             _context.Update(cart);
             _context.SaveChanges();
 
             var response = new
             {
-                data = cart,
+                data = cart.CartItems,
             };
 
             return Json (response);
@@ -123,31 +96,37 @@ public class CartsController : BaseController
         }
     }
 
-    [HttpDelete("[controller]/cart-item/{cartItemId}")]
+    [HttpDelete("/cart-item/{cartItemId}")]
     [Authorize]
     public IActionResult DeleteCartItem(int cartItemId)
     {
         try
         {
             var userId = GetCurrentUserId();
-            var cart = _context.Carts.FirstOrDefault((cart) => cart.UserId == userId && !cart.IsOrdered);
+            var cart = _context.Carts
+                .Include(c => c.CartItems)
+                .FirstOrDefault((cart) => cart.UserId == userId && !cart.IsOrdered);
             if (cart is null) 
             {
                 return BadRequest(new { errorText = "Не удалось найти активную корзину для текущего пользователя" });
             }
 
-            var cartItem = cart.CartItems.FirstOrDefault((item) => item.Drug == cartItemId);
+            var cartItem = cart.CartItems.Find((item) => item.DrugId == cartItemId);
             if (cartItem is null)
             {
                 return BadRequest(new { errorText = "Не удалось найти указанный элемент корзины" });
             }
+            
+            var drug = _context.Drugs.Find(cartItemId);
+
+            if(drug != null) drug.Count = drug.Count + cartItem.Amount;
 
             cart.CartItems.Remove(cartItem);
             _context.SaveChanges();
 
             var response = new
             {
-                data = cart,
+                data = cart.CartItems,
             };
 
             return Json(response);
@@ -161,39 +140,44 @@ public class CartsController : BaseController
         }
     }
 
-    [HttpPatch("[controller]/cart-item/{cartItemId}/change-amount")]
+    [HttpPatch("/cart-item")]
     [Authorize]
-    public IActionResult ChangeCartItemAmount(int cartItemId, int newAmount)
+    public IActionResult ChangeCartItemAmount(PutCartItem putCartItem)
     {
         try
         {
             var userId = GetCurrentUserId();
-            var cart = _context.Carts.FirstOrDefault((cart) => cart.UserId == userId && !cart.IsOrdered);
+            var cart = _context.Carts
+                .Include(c => c.CartItems)
+                .FirstOrDefault((cart) => cart.UserId == userId && !cart.IsOrdered);
             if (cart is null)
             {
                 return BadRequest(new { errorText = "Не удалось найти активную корзину для текущего пользователя" });
             }
 
-            var cartItem = cart.CartItems.FirstOrDefault((item) => item.Drug == cartItemId);
+            var cartItem = cart.CartItems.Find((item) => item.DrugId == putCartItem.DrugId);
             if (cartItem is null)
             {
                 return BadRequest(new { errorText = "Не удалось найти указанный элемент корзины" });
             }
 
-            if (newAmount <= 0)
+            if (putCartItem.Count <= 0)
             {
-                cart.CartItems.Remove(cartItem);
+                return BadRequest(new { errorText = "Вы передали нулевое количество"});
             }
             else
             {
-                cartItem.Amount = newAmount;
+                int countDifference = cartItem.Amount - putCartItem.Count;
+                cartItem.Amount = putCartItem.Count;
+                var drug = _context.Drugs.Find(putCartItem.DrugId);
+                if(drug != null) drug.Count = drug.Count + countDifference;
             }
 
             _context.SaveChanges();
 
             var response = new
             {
-                data = cart,
+                data = cart.CartItems,
             };
 
             return Json(response);
