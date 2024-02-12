@@ -14,7 +14,7 @@ const Catalog: React.FC = () => {
       fetchProducts({
         manufacturer: form.getFieldValue('manufacturer'),
         kind: form.getFieldValue('kind'),
-        name: null,
+        form: form.getFieldValue('form'),
       })
     );
   };
@@ -75,6 +75,34 @@ const Catalog: React.FC = () => {
                     { value: 18, label: 'Местноанестезирующие' },
                     { value: 19, label: 'Противовоспалительные' },
                     { value: 20, label: 'Жаропонижающие' },
+                  ]}
+                />
+              </Form.Item>
+              <Form.Item name={'form'}>
+                <Select
+                  className="filter"
+                  placeholder="Форма выпуска"
+                  allowClear
+                  style={{ width: 220 }}
+                  options={[
+                    { value: 1, label: 'Таблетки' },
+                    { value: 2, label: 'Капсулы' },
+                    { value: 3, label: 'Порошки' },
+                    { value: 4, label: 'Гранулы' },
+                    { value: 5, label: 'Драже' },
+                    { value: 6, label: 'Растворы' },
+                    { value: 7, label: 'Капли' },
+                    { value: 8, label: 'Сиропы' },
+                    { value: 9, label: 'Суспензии' },
+                    { value: 10, label: 'Эмульсии' },
+                    { value: 11, label: 'Мази' },
+                    { value: 12, label: 'Крема' },
+                    { value: 13, label: 'Гели' },
+                    { value: 14, label: 'Спреи' },
+                    { value: 15, label: 'Аэрозоли' },
+                    { value: 16, label: 'Экстракты' },
+                    { value: 17, label: 'Травы' },
+                    { value: 18, label: 'Пластыри' },
                   ]}
                 />
               </Form.Item>

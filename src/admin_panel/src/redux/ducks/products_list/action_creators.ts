@@ -7,8 +7,10 @@ import {
   SET_PRODUCTS_FETCHING,
 } from './action_types';
 
-export const fetchProducts = (isLoadingMore = false) =>
-  ({ type: FETCH_PRODUCTS, payload: isLoadingMore } as const);
+export const fetchProducts = (
+  filters: any = undefined,
+  isLoadingMore = false
+) => ({ type: FETCH_PRODUCTS, payload: { filters, isLoadingMore } } as const);
 
 export const setProductsFetching = (
   isFetching: boolean,

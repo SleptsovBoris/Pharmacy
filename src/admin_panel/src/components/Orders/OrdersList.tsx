@@ -53,7 +53,7 @@ const OrdersList: React.FC = () => {
 
   return (
     <>
-      {ordersListState.items.map(order => (
+      {ordersListState.items.reverse().map(order => (
         //eslint-disable-next-line
         <div key={order.orderId!} className="order-collapse-wrapper">
           <Collapse>

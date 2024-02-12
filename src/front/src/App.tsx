@@ -43,8 +43,6 @@ const App: React.FC = () => {
     dispatch(
       fetchProducts({
         name: form.getFieldValue('name'),
-        manufacturer: null,
-        kind: null,
       })
     );
     navigate('/catalog');

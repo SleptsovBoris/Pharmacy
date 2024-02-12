@@ -9,9 +9,11 @@ import { FETCH_PRODUCTS } from './action_types';
 type IFetchProductsAction = ReturnType<typeof actionCreators.fetchProducts>;
 
 function* fetchProducts({ payload }: IFetchProductsAction) {
-  yield put(actionCreators.setProductsFetching(true, payload));
+  yield put(actionCreators.setProductsFetching(true, payload.isLoadingMore));
   try {
-    const response = (yield call(getProductsList)) as AxiosResponse<IDrug[]>;
+    const response = (yield call(() =>
+      getProductsList(payload.filters)
+    )) as AxiosResponse<IDrug[]>;
     if (payload) {
       yield put(actionCreators.addProducts(response.data));
     } else {

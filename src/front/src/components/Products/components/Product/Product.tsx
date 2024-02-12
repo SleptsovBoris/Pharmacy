@@ -31,7 +31,7 @@ const Product: React.FC<IProps> = (props: IProps) => {
         </div>
         <div className="product__row">
           <div className="product__price">{props.item.price} ₽</div>
-          <div className="count__wrapper">{props.item.count}</div>
+          <div className="count__wrapper">В наличии </div>
         </div>
 
         <Divider style={{ margin: '10px 0' }} />

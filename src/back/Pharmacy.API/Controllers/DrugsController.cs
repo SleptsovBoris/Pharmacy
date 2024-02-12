@@ -24,6 +24,7 @@ public class DrugsController : ControllerBase
     {
         return _context.Drugs.Where(drug => (getDrugs.Manufacturer == null || drug.ManufacturerId == getDrugs.Manufacturer) &&
                                             (getDrugs.Kind == null || drug.KindId == getDrugs.Kind) &&
+                                            (getDrugs.Form == null || drug.FormId == getDrugs.Form) &&
                                             (getDrugs.Name == null || drug.DrugName == getDrugs.Name)).ToList();
     }
 

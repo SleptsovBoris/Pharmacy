@@ -18,3 +18,19 @@
   color: $text-color;
   padding: 16px 0 48px 0;
 }
+
+.filters {
+  display: flex;
+  gap: 20px;
+  height: auto;
+
+  .form__filters {
+    display: flex;
+    gap: 20px;
+  }
+}
+
+.search__drug {
+  display: flex;
+  margin: 20px 0;
+}

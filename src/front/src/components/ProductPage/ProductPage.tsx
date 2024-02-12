@@ -69,7 +69,7 @@ const ProductPage: React.FC = () => {
             </div>
             <div className="row__wrapper">
               <div className="product__price">от {product?.price} ₽</div>
-              <div className="count__wrapper">{product?.count}</div>
+              <div className="count__wrapper">В наличии </div>
             </div>
             {
               cartState.items &&
